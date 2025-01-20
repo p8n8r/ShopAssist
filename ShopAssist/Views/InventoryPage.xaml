@@ -28,7 +28,7 @@
                 </Grid>
             </Grid>
             <Label Content="Inventory" Grid.Row="1"/>
-            <DataGrid Grid.Row="2" ItemsSource="{Binding Inventory}"  SelectedItem="{Binding SelectedItem}"
+            <DataGrid Name="inventoryDataGrid" Grid.Row="2" ItemsSource="{Binding Inventory}"  SelectedItem="{Binding SelectedItem}"
                       CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Code" Binding="{Binding Code}" Width="1*" IsReadOnly="True"/>

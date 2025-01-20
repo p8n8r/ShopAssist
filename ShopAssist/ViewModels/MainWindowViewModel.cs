@@ -3,11 +3,15 @@ using ShopAssist.Models;
 using ShopAssist.Views;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Navigation;
+using System.Windows;
 using System.Xml.Serialization;
 
 namespace ShopAssist.ViewModels
@@ -165,6 +169,14 @@ namespace ShopAssist.ViewModels
         private void OpenInventoryPage()
         {
             this.mainWindow.mainFrame.Navigate(this.mainWindow.inventoryPage);
+        }
+
+        public Page GetCurrentPage()
+        {
+            if (this.MainWindow != null)
+                return (this.MainWindow.FindName("mainFrame") as Frame).Content as Page;
+
+            return null;
         }
 
         private void OnClose()

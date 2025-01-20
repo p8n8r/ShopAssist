@@ -1,5 +1,6 @@
 ﻿using ShopAssist.DisplayDialogs;
 using ShopAssist.Models;
+using ShopAssist.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace ShopAssist.ViewModels
 {
@@ -17,6 +19,7 @@ namespace ShopAssist.ViewModels
         private readonly IDisplayDialog displayDialog;
         private Item selectedItem;
         private string searchText;
+        private DataGrid dataGrid;
         public RelayCommand reloadCmd => new RelayCommand(execute => ReloadInventory());
         public RelayCommand searchCmd => new RelayCommand(execute => Search());
 
@@ -44,6 +47,7 @@ namespace ShopAssist.ViewModels
 
         private void ReloadInventory()
         {
+            this.dataGrid = (this.mainWindowViewModel.GetCurrentPage() as InventoryPage).FindName("inventoryDataGrid") as DataGrid;
             this.Inventory = new ObservableCollection<Item>(this.mainWindowViewModel.Store.Inventory.Select(p => p.Value));
         }
 
@@ -54,7 +58,7 @@ namespace ShopAssist.ViewModels
                 if (this.mainWindowViewModel.Store.Inventory.TryGetValue(itemCodeSearch, out Item itemFound))
                 {
                     this.SelectedItem = itemFound;
-                    //ScrollTo... Hightlight...
+                    this.dataGrid?.ScrollIntoView(this.SelectedItem);
                 }
                 else
                 {
