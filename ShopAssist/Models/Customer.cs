@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ShopAssist.Models
 {
-    internal class Customer
+    [Serializable]
+    public class Customer
     {
         public string Name { get; set; }
         public Membership Membership { get; set; }

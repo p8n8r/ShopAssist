@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ShopAssist.Models
 {
-    internal class Tree<T>
+    [Serializable]
+    public class Tree<T>
     {
         public TreeNode<T> Root { get; set; }
 

@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace ShopAssist.Models
 {
-    internal class Membership
+    public enum MembershipLevel { High, Medium, Low, None }
+
+    [Serializable]
+    public class Membership
     {
-        public int ID { get; set; }
-        public bool IsCurrentMember { get; set; } = false;
+        public int Id { get; set; }
+        public MembershipLevel MembershipLevel { get; set; } = MembershipLevel.None;
     }
 }

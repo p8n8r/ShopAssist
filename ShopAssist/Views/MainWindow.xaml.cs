@@ -25,6 +25,10 @@ namespace ShopAssist.Views
         public readonly IDisplayDialog displayDialog;
         internal MainWindowViewModel mainWindowViewModel;
         internal WelcomePage welcomePage;
+        public CustomerPage customerPage;
+        //public BrowsePage browsePage;
+        //public ReturnsPage returnsPage;
+        //public DonatePage donatePage;
 
         public MainWindow(IDisplayDialog displayDialog = null)
         {
@@ -40,7 +44,7 @@ namespace ShopAssist.Views
 
             //Construct pages and viewmodels
             this.welcomePage = new WelcomePage();
-            //this.loginPage = new LogInPage(mainWindowViewModel);
+            this.customerPage = new CustomerPage(mainWindowViewModel);
             //this.browsePage = new BrowsePage(mainWindowViewModel);
             //this.returnsPage = new ReturnsPage(mainWindowViewModel);
             //this.donatePage = new DonatePage(mainWindowViewModel);
@@ -53,9 +57,9 @@ namespace ShopAssist.Views
             //this.donatePage.mediaTableFrame.Navigate(donatePageViewModel.bookDonationPage);
         }
 
-        //private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        //{
-        //    this.mainWindowViewModel.onCloseCmd.Execute();
-        //}
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            this.mainWindowViewModel.onCloseCmd.Execute();
+        }
     }
 }
