@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace MediaKiosk.DisplayDialogs
+namespace ShopAssist.DisplayDialogs
 {
     public interface IDisplayDialog
     {
