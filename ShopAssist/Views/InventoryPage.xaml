@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:ShopAssist.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="700"
-      Title="InventoryPage" Background="Azure" Loaded="Page_Loaded">
+      Title="InventoryPage" Loaded="Page_Loaded">
 
     <Grid Margin="30">
         <Grid>
