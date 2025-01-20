@@ -22,6 +22,7 @@ namespace ShopAssist.ViewModels
         private MainWindow mainWindow;
         public MainWindow MainWindow { get { return mainWindow; } }
         public RelayCommand customersCmd => new RelayCommand(execute => OpenCustomerPage());
+        public RelayCommand inventoryCmd => new RelayCommand(execute => OpenInventoryPage());
         public RelayCommand onCloseCmd => new RelayCommand(execute => OnClose());
 
         public MainWindowViewModel(MainWindow mainWindow, IDisplayDialog displayDialog)
@@ -46,8 +47,9 @@ namespace ShopAssist.ViewModels
 
             this.Store.Inventory = new Dictionary<int, Item>()
             {
-                { 0, new Item() { Name = "Apple", Category = "Fruit", Stock = 10, Price = 0.89M } },
-                { 1, new Item() { Name = "Steak", Category = "Meat", Stock = 3, Price = 8.99M } }
+                { 0, new Item() { Name = "Apple", Category = "Fruit", Stock = 10, Price = 0.89M, Code = 0 } },
+                { 1, new Item() { Name = "Steak", Category = "Meat", Stock = 3, Price = 8.99M, Code = 1 } },
+                { 2, new Item() { Name = "Butter", Category = "Dairy", Stock = 5, Price = 3.56M, Code = 2 } }
             };
         }
 
@@ -158,6 +160,11 @@ namespace ShopAssist.ViewModels
         private void OpenCustomerPage()
         {
             this.mainWindow.mainFrame.Navigate(this.mainWindow.customerPage);
+        }
+
+        private void OpenInventoryPage()
+        {
+            this.mainWindow.mainFrame.Navigate(this.mainWindow.inventoryPage);
         }
 
         private void OnClose()

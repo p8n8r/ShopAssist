@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ShopAssist.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="700"
       Title="CustomerPage" Loaded="Page_Loaded">
 
     <Grid Margin="30">
@@ -14,8 +14,8 @@
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Label Content="Customers"/>
-            <DataGrid Grid.Row="1" ItemsSource="{Binding Customers}" CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False">
+            <Label Content="Customers" Grid.Row="0"/>
+            <DataGrid ItemsSource="{Binding Customers}" Grid.Row="1" CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding Path=Membership.Id}" Width="1*" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="1*" IsReadOnly="True"/>

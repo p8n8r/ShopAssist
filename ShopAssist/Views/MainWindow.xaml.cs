@@ -26,7 +26,7 @@ namespace ShopAssist.Views
         internal MainWindowViewModel mainWindowViewModel;
         internal WelcomePage welcomePage;
         public CustomerPage customerPage;
-        //public BrowsePage browsePage;
+        public InventoryPage inventoryPage;
         //public ReturnsPage returnsPage;
         //public DonatePage donatePage;
 
@@ -45,7 +45,7 @@ namespace ShopAssist.Views
             //Construct pages and viewmodels
             this.welcomePage = new WelcomePage();
             this.customerPage = new CustomerPage(mainWindowViewModel);
-            //this.browsePage = new BrowsePage(mainWindowViewModel);
+            this.inventoryPage = new InventoryPage(mainWindowViewModel);
             //this.returnsPage = new ReturnsPage(mainWindowViewModel);
             //this.donatePage = new DonatePage(mainWindowViewModel);
 
