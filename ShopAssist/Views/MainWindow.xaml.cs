@@ -27,8 +27,7 @@ namespace ShopAssist.Views
         internal WelcomePage welcomePage;
         public CustomerPage customerPage;
         public InventoryPage inventoryPage;
-        //public ReturnsPage returnsPage;
-        //public DonatePage donatePage;
+        public CategoryPage categoryPage;
 
         public MainWindow(IDisplayDialog displayDialog = null)
         {
@@ -46,8 +45,7 @@ namespace ShopAssist.Views
             this.welcomePage = new WelcomePage();
             this.customerPage = new CustomerPage(mainWindowViewModel);
             this.inventoryPage = new InventoryPage(mainWindowViewModel);
-            //this.returnsPage = new ReturnsPage(mainWindowViewModel);
-            //this.donatePage = new DonatePage(mainWindowViewModel);
+            this.categoryPage = new CategoryPage(mainWindowViewModel);
 
             //Set initial navigation pages
             this.mainFrame.Navigate(this.welcomePage); //Cannot set in xaml with param

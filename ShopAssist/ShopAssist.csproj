@@ -63,12 +63,17 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IDisplayDialog.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Utility.cs" />
+    <Compile Include="ViewModels\CategoryPageViewModel.cs" />
     <Compile Include="ViewModels\CustomerPageViewModel.cs" />
     <Compile Include="ViewModels\InventoryPageViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\CategoryPage.xaml.cs">
+      <DependentUpon>CategoryPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CustomerPage.xaml.cs">
       <DependentUpon>CustomerPage.xaml</DependentUpon>
     </Compile>
@@ -115,6 +120,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\CategoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CustomerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

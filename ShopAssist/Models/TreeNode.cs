@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace ShopAssist.Models
 {
@@ -10,6 +11,7 @@ namespace ShopAssist.Models
     public class TreeNode<T>
     {
         public T Data { get; set; }
+        [XmlIgnore]
         public TreeNode<T> Parent { get; set; }
         public List<TreeNode<T>> Children { get; set; }
 

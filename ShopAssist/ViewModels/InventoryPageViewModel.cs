@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace ShopAssist.ViewModels
 {
@@ -22,6 +23,10 @@ namespace ShopAssist.ViewModels
         private DataGrid dataGrid;
         public RelayCommand reloadCmd => new RelayCommand(execute => ReloadInventory());
         public RelayCommand searchCmd => new RelayCommand(execute => Search());
+        public RelayCommand addCmd => new RelayCommand(execute => IncrementStock(), 
+            canExecute => this.SelectedItem != null && this.SelectedItem.Stock < 100);
+        public RelayCommand removeCmd => new RelayCommand(execute => DecrementStock(), 
+            canExecute => this.SelectedItem != null && this.SelectedItem.Stock > 0);
 
         public ObservableCollection<Item> Inventory
         {
@@ -35,8 +40,8 @@ namespace ShopAssist.ViewModels
         }
         public string SearchText
         {
-            get { return searchText; }
-            set { searchText = value; OnPropertyChanged(); }
+            get { return this.searchText; }
+            set { this.searchText = value; OnPropertyChanged(); }
         }
 
         public InventoryPageViewModel(MainWindowViewModel mainWindowViewModel)
@@ -62,13 +67,29 @@ namespace ShopAssist.ViewModels
                 }
                 else
                 {
-                    displayDialog.ShowErrorMessageBox($"\"{this.SearchText}\" was not found. Please try again.");
+                    this.displayDialog.ShowErrorMessageBox($"\"{this.SearchText}\" was not found. Please try again.");
                 }
             }
             else
             {
-                displayDialog.ShowErrorMessageBox($"\"{this.SearchText}\" is not a numerical code. Please try again.");
+                this.displayDialog.ShowErrorMessageBox($"\"{this.SearchText}\" is not a numerical code. Please try again.");
             }
+        }
+
+        private void IncrementStock()
+        {
+            this.SelectedItem.Stock++;
+
+            //Force refresh of inventory, so inventory can remain plain old CLR objects (pocos).
+            CollectionViewSource.GetDefaultView(this.Inventory).Refresh();
+        }
+
+        private void DecrementStock()
+        {
+            this.SelectedItem.Stock--;
+
+            //Force refresh of inventory, so inventory can remain plain old CLR objects (pocos).
+            CollectionViewSource.GetDefaultView(this.Inventory).Refresh();
         }
     }
 }

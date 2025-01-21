@@ -27,6 +27,7 @@ namespace ShopAssist.ViewModels
         public MainWindow MainWindow { get { return mainWindow; } }
         public RelayCommand customersCmd => new RelayCommand(execute => OpenCustomerPage());
         public RelayCommand inventoryCmd => new RelayCommand(execute => OpenInventoryPage());
+        public RelayCommand categoriesCmd => new RelayCommand(execute => OpenCategoryPage());
         public RelayCommand onCloseCmd => new RelayCommand(execute => OnClose());
 
         public MainWindowViewModel(MainWindow mainWindow, IDisplayDialog displayDialog)
@@ -35,7 +36,7 @@ namespace ShopAssist.ViewModels
             this.displayDialog = displayDialog;
 
             ImportStore(STORE_FILE);
-            //AddJunkData(); // <---- REMOVE THIS 
+            AddJunkData(); // <---- REMOVE THIS 
         }
 
         private void AddJunkData()
@@ -54,6 +55,73 @@ namespace ShopAssist.ViewModels
                 { 0, new Item() { Name = "Apple", Category = "Fruit", Stock = 10, Price = 0.89M, Code = 0 } },
                 { 1, new Item() { Name = "Steak", Category = "Meat", Stock = 3, Price = 8.99M, Code = 1 } },
                 { 2, new Item() { Name = "Butter", Category = "Dairy", Stock = 5, Price = 3.56M, Code = 2 } }
+            };
+
+            this.Store.Categories = new Tree<Category>() { Root = new TreeNode<Category>() { Data = new Category() { Name = "All" } } };
+            this.Store.Categories.Root.Children = new List<TreeNode<Category>>()
+            {
+                new TreeNode<Category>()
+                {
+                    Data = new Category() { Name = "Meats" },
+                    Parent = this.Store.Categories.Root,
+                    Children = new List<TreeNode<Category>>()
+                    {
+                        new TreeNode<Category>()
+                        {
+                            Data = new Category() { Name = "Poultry" },
+                            //Parent = this.Store.Categories.Root.Children[0]
+                        },
+                        new TreeNode<Category>()
+                        {
+                            Data = new Category() { Name = "Steak" },
+                            //Parent = this.Store.Categories.Root.Children[0]
+                        },
+                    }
+                },
+                new TreeNode<Category>()
+                {
+                    Data = new Category() { Name = "Fruits and Vegetables" },
+                    //Parent = this.Store.Categories.Root,
+                    Children = new List<TreeNode<Category>>()
+                    {
+                        new TreeNode<Category>()
+                        {
+                            Data = new Category() { Name = "Fruit" },
+                            //Parent = this.Store.Categories.Root.Children[1],
+                            Children = new List<TreeNode<Category>>()
+                            {
+                                new TreeNode<Category>()
+                                {
+                                    Data = new Category() { Name = "Apple" },
+                                    //Parent = this.Store.Categories.Root.Children[1].Children[0]
+                                },
+                                new TreeNode<Category>()
+                                {
+                                    Data = new Category() { Name = "Banana" },
+                                    //Parent = this.Store.Categories.Root.Children[1].Children[0]
+                                }
+                            }
+                        },
+                        new TreeNode<Category>()
+                        {
+                            Data = new Category() { Name = "Vegetables" },
+                            //Parent = this.Store.Categories.Root.Children[1],
+                            Children = new List<TreeNode<Category>>()
+                            {
+                                new TreeNode<Category>()
+                                {
+                                    Data = new Category() { Name = "Broccoli" },
+                                    //Parent = this.Store.Categories.Root.Children[1].Children[1]
+                                },
+                                new TreeNode<Category>()
+                                {
+                                    Data = new Category() { Name = "Carrot" },
+                                    //Parent = this.Store.Categories.Root.Children[1].Children[1]
+                                }
+                            }
+                        }
+                    }
+                }
             };
         }
 
@@ -169,6 +237,11 @@ namespace ShopAssist.ViewModels
         private void OpenInventoryPage()
         {
             this.mainWindow.mainFrame.Navigate(this.mainWindow.inventoryPage);
+        }
+        
+        private void OpenCategoryPage()
+        {
+            this.mainWindow.mainFrame.Navigate(this.mainWindow.categoryPage);
         }
 
         public Page GetCurrentPage()

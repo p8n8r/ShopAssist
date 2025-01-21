@@ -13,6 +13,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
@@ -27,8 +28,20 @@
                     <Button Content="Search" Command="{Binding searchCmd}" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,2,0" Width="50"/>
                 </Grid>
             </Grid>
-            <Label Content="Inventory" Grid.Row="1"/>
-            <DataGrid Name="inventoryDataGrid" Grid.Row="2" ItemsSource="{Binding Inventory}"  SelectedItem="{Binding SelectedItem}"
+            <Grid Grid.Row="1">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Update Stock:" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <Button Content="+" Command="{Binding addCmd}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,2,0" Width="25"/>
+                    <Button Content="-" Command="{Binding removeCmd}" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,2,0" Width="25"/>
+                </Grid>
+            </Grid>
+            <Label Content="Inventory" Grid.Row="2"/>
+            <DataGrid Name="inventoryDataGrid" Grid.Row="3" ItemsSource="{Binding Inventory}"  SelectedItem="{Binding SelectedItem}"
                       CanUserAddRows="False" CanUserDeleteRows="False" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Code" Binding="{Binding Code}" Width="1*" IsReadOnly="True"/>
