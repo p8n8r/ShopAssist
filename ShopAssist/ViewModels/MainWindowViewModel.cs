@@ -123,6 +123,10 @@ namespace ShopAssist.ViewModels
                     }
                 }
             };
+
+            this.Store.Categories.Root.Children[0].Children[0].Parent = this.Store.Categories.Root.Children[0];
+            this.Store.Categories.Root.Children[0].Children[1].Parent = this.Store.Categories.Root.Children[0];
+            //...
         }
 
         private void ImportStore(string filePath)

@@ -11,9 +11,9 @@ namespace ShopAssist.ViewModels
 {
     public class DisplayableCategory : ViewModelBase
     {
-        private ObservableCollection<Category> subcategories;
+        private ObservableCollection<DisplayableCategory> subcategories;
         public string Name { get; set; }
-        public ObservableCollection<Category> Subcategories
+        public ObservableCollection<DisplayableCategory> Subcategories
         {
             get { return this.subcategories; }
             set { this.subcategories = value; OnPropertyChanged(); }
@@ -49,14 +49,16 @@ namespace ShopAssist.ViewModels
             if (node != null)
             {
                 displayableCategories.Name = node.Data.Name;
-                displayableCategories.Subcategories = new ObservableCollection<Category>();
 
                 if (node.Children != null)
                 {
+                    displayableCategories.Subcategories = new ObservableCollection<DisplayableCategory>();
+
                     foreach (TreeNode<Category> subnode in node.Children)
                     {
                         DisplayableCategory displayableSubcategory = new DisplayableCategory();
                         FillCategories(displayableSubcategory, subnode);
+                        displayableCategories.Subcategories.Add(displayableSubcategory);
                     }
                 }
             }
