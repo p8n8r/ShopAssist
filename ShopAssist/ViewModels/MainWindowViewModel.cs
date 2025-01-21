@@ -36,7 +36,7 @@ namespace ShopAssist.ViewModels
             this.displayDialog = displayDialog;
 
             ImportStore(STORE_FILE);
-            AddJunkData(); // <---- REMOVE THIS 
+            //AddJunkData(); // <---- REMOVE THIS 
         }
 
         private void AddJunkData()

@@ -7,14 +7,14 @@
       xmlns:viewmodels="clr-namespace:ShopAssist.ViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="CategoryPage" Loaded="Page_Loaded" Background="White">
+      Title="CategoryPage" Loaded="Page_Loaded">
     <Page.Resources>
         <HierarchicalDataTemplate DataType="{x:Type viewmodels:DisplayableCategory}" ItemsSource="{Binding Subcategories}">
             <TextBlock Text="{Binding Name}"/>
         </HierarchicalDataTemplate>
     </Page.Resources>
-    
-    <Grid>
+
+    <Grid Margin="30">
         <TreeView ItemsSource="{Binding DisplayableCategories}"/>
     </Grid>
 </Page>
