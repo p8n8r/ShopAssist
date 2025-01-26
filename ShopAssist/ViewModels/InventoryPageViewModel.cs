@@ -22,7 +22,8 @@ namespace ShopAssist.ViewModels
         private string searchText;
         private DataGrid dataGrid;
         public RelayCommand reloadCmd => new RelayCommand(execute => ReloadInventory());
-        public RelayCommand searchCmd => new RelayCommand(execute => Search());
+        public RelayCommand searchCmd => new RelayCommand(execute => Search(),
+            canExecute => !string.IsNullOrWhiteSpace(this.SearchText));
         public RelayCommand addCmd => new RelayCommand(execute => IncrementStock(), 
             canExecute => this.SelectedItem != null && this.SelectedItem.Stock < 100);
         public RelayCommand removeCmd => new RelayCommand(execute => DecrementStock(), 
