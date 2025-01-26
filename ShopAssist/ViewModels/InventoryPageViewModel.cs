@@ -64,6 +64,7 @@ namespace ShopAssist.ViewModels
                 {
                     this.SelectedItem = itemFound;
                     this.dataGrid?.ScrollIntoView(this.SelectedItem);
+                    this.SearchText = string.Empty;
                 }
                 else
                 {
