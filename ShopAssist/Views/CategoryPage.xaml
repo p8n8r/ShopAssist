@@ -32,9 +32,9 @@
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Text="{Binding SearchText}" Grid.Row="0" Grid.Column="0" Margin="5"/>
+                    <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="0" Margin="5"/>
                     <Button Content="Search" Command="{Binding searchCmd}" Grid.Row="0" Grid.Column="1" Margin="5"/>
-                    <TextBox Text="{Binding AddText}" Grid.Row="1" Grid.Column="0" Margin="5"/>
+                    <TextBox Text="{Binding AddText, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="0" Margin="5"/>
                     <Button Content="Add" Command="{Binding addCmd}" Grid.Row="1" Grid.Column="1" Margin="5"/>
                     <Button Content="Remove item and subcategories" Command="{Binding removeCmd}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="5"/>
                 </Grid>

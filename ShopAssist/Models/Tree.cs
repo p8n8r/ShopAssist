@@ -86,9 +86,9 @@ namespace ShopAssist.Models
             {
                 if (nodeCurrent.Children != null)
                 {
-                    foreach (TreeNode<T> treeNode in nodeCurrent.Children)
+                    while(nodeCurrent.Children.Count > 0)
                     {
-                        RemoveChild(treeNode);
+                        RemoveChild(nodeCurrent.Children.First());
                     }
                 }
 
