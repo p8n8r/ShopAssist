@@ -141,6 +141,11 @@ namespace ShopAssist.ViewModels
                 //around that IDictionary serialization issue.
                 for (int i = 0; i < this.Store.Items.Count; i++)
                     this.Store.Inventory[i] = this.Store.Items[i];
+
+                //Let's restore the category tree parents.
+                //The parents have to be left out 
+                //of XML serialization.
+                this.Store.Categories.RestoreParents();
             }
             else
             {
