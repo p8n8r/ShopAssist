@@ -25,6 +25,7 @@ namespace ShopAssist.ViewModels
         public CustomerPageViewModel(MainWindowViewModel mainWindowViewModel)
         {
             this.mainWindowViewModel = mainWindowViewModel;
+            ListOperations.QuickSort(this.mainWindowViewModel.Store.Customers); //Ascending
         }
 
         private void ReloadCustomers()
