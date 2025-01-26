@@ -33,8 +33,6 @@ namespace ShopAssist.ViewModels
         private string searchText, addText;
         public RelayCommand reloadCmd => new RelayCommand(execute => ReloadCategories());
         public RelayCommand selectedItemChangedCmd => new RelayCommand(item => UpdateSelectedCategory(item));
-        public RelayCommand searchCmd => new RelayCommand(execute => Search(),
-            canExecute => selectedDisplayableCategory != null && !string.IsNullOrWhiteSpace(this.SearchText));
         public RelayCommand addCmd => new RelayCommand(execute => Add(),
             canExecute => selectedDisplayableCategory != null && !string.IsNullOrWhiteSpace(this.AddText));
         public RelayCommand removeCmd => new RelayCommand(execute => Remove(), canExecute => selectedDisplayableCategory != null);
@@ -121,24 +119,6 @@ namespace ShopAssist.ViewModels
             this.selectedDisplayableCategory = treeViewItem as DisplayableCategory;
         }
 
-        private void Search()
-        {
-            Category categoryFind = new Category() { Name = this.SearchText };
-            TreeNode<Category> categoryNodeFound = this.mainWindowViewModel.Store.Categories.Find(categoryFind);
-
-            if (categoryNodeFound != null)
-            {
-                TreeViewItem item = null;
-                //item.Select
-                //this.DisplayableCategories.
-                this.SearchText = string.Empty;
-            }
-            else
-            {
-                ;//dialogmsg
-            }
-        }
-
         private void Add()
         {
             Category categoryCurrent = new Category() { Name = this.selectedDisplayableCategory.Name };
@@ -168,15 +148,19 @@ namespace ShopAssist.ViewModels
         {
             Category categoryCurrent = new Category() { Name = this.selectedDisplayableCategory.Name };
             TreeNode<Category> categoryNodeCurrent = this.mainWindowViewModel.Store.Categories.Find(categoryCurrent);
-            this.mainWindowViewModel.Store.Categories.RemoveChild(categoryNodeCurrent);
 
             DisplayableCategory displayableCategory = FindDisplayableCategory(categoryNodeCurrent.Data.Name);
             DisplayableCategory parentDisplayableCategory = displayableCategory.ParentCategory;
 
             if (parentDisplayableCategory == null) //The root node?
+            {
                 MessageBox.Show("Cannot remove the \"All\" category.");
+            }
             else if (parentDisplayableCategory.Subcategories != null)
+            {
+                this.mainWindowViewModel.Store.Categories.RemoveChild(categoryNodeCurrent); 
                 parentDisplayableCategory.Subcategories.Remove(displayableCategory); //Also removes children
+            }
         }
     }
 }
