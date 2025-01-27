@@ -10,7 +10,7 @@ namespace ShopAssist
     {
         public static void QuickSort<T>(List<T> list) where T : IComparable<T>
         {
-            Sort(list, 0, list.Count - 1);
+            Sort(list, 0, list.Count - 1); //Sort indices of whole list
         }
 
         private static void Sort<T>(List<T> list, int lower, int upper) where T : IComparable<T>
@@ -18,26 +18,25 @@ namespace ShopAssist
             if (lower < upper)
             {
                 int p = Partition(list, lower, upper); //Index of pivot
-                Sort(list, lower, p);
-                Sort(list, p + 1, upper);
+                Sort(list, lower, p - 1); //Sort left partition
+                Sort(list, p + 1, upper); //Sort right partition
             }
         }
 
         private static int Partition<T>(List<T> list, int lower, int upper) where T : IComparable<T>
         {
-            int i = lower, j = upper;
-            T pivot = list[lower];
+            T pivot = list[upper]; //Choose pivot
+            int i = lower - 1;
 
-            do
-            {
-                while (list[i].CompareTo(pivot) < 0) { ++i; }
-                while (list[j].CompareTo(pivot) > 0) { --j; }
-                if (i >= j) break;
-                list.Swap(i, j);
-            }
-            while (i <= j);
+            //Traverse list, moving smaller items to left
+            for (int j = lower; j <= upper - 1; j++)
+                if (list[j].CompareTo(pivot) < 0)
+                    list.Swap(++i, j);
 
-            return j;
+            //Move pivot index after sorted sublist
+            list.Swap(i + 1, upper);
+
+            return i + 1;
         }
 
         private static void Swap<T>(this List<T> list, int idx1, int idx2)
