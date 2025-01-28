@@ -28,6 +28,8 @@ namespace ShopAssist.ViewModels
         public RelayCommand customersCmd => new RelayCommand(execute => OpenCustomerPage());
         public RelayCommand inventoryCmd => new RelayCommand(execute => OpenInventoryPage());
         public RelayCommand categoriesCmd => new RelayCommand(execute => OpenCategoryPage());
+        public RelayCommand checkoutCmd => new RelayCommand(execute => OpenCheckoutPage());
+        public RelayCommand directionsCmd => new RelayCommand(execute => OpenDirectionsPage());
         public RelayCommand onCloseCmd => new RelayCommand(execute => OnClose());
 
         public MainWindowViewModel(MainWindow mainWindow, IDisplayDialog displayDialog)
@@ -251,6 +253,16 @@ namespace ShopAssist.ViewModels
         private void OpenCategoryPage()
         {
             this.mainWindow.mainFrame.Navigate(this.mainWindow.categoryPage);
+        }
+
+        private void OpenCheckoutPage()
+        {
+            this.mainWindow.mainFrame.Navigate(this.mainWindow.checkoutPage);
+        }
+
+        private void OpenDirectionsPage()
+        {
+            this.mainWindow.mainFrame.Navigate(this.mainWindow.directionsPage);
         }
 
         public Page GetCurrentPage()

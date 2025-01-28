@@ -1,4 +1,5 @@
-﻿using ShopAssist.Models;
+﻿using ShopAssist.DisplayDialogs;
+using ShopAssist.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,6 +27,7 @@ namespace ShopAssist.ViewModels
 
     internal class CategoryPageViewModel : ViewModelBase
     {
+        private readonly IDisplayDialog displayDialog;
         private ObservableCollection<DisplayableCategory> categories;
         private MainWindowViewModel mainWindowViewModel;
         private DisplayableCategory rootDisplayableCategory;
@@ -56,6 +58,7 @@ namespace ShopAssist.ViewModels
         public CategoryPageViewModel(MainWindowViewModel mainWindowViewModel)
         {
             this.mainWindowViewModel = mainWindowViewModel;
+            this.displayDialog = this.mainWindowViewModel.displayDialog;
         }
 
         private void ReloadCategories()
@@ -154,7 +157,7 @@ namespace ShopAssist.ViewModels
 
             if (parentDisplayableCategory == null) //The root node?
             {
-                MessageBox.Show("Cannot remove the \"All\" category.");
+                this.displayDialog.ShowErrorMessageBox("Cannot remove the \"All\" category.");
             }
             else if (parentDisplayableCategory.Subcategories != null)
             {

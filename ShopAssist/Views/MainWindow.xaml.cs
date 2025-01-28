@@ -23,11 +23,13 @@ namespace ShopAssist.Views
     public partial class MainWindow : Window
     {
         public readonly IDisplayDialog displayDialog;
-        internal MainWindowViewModel mainWindowViewModel;
-        internal WelcomePage welcomePage;
+        private MainWindowViewModel mainWindowViewModel;
+        public WelcomePage welcomePage;
         public CustomerPage customerPage;
         public InventoryPage inventoryPage;
         public CategoryPage categoryPage;
+        public CheckoutPage checkoutPage;
+        public DirectionsPage directionsPage;
 
         public MainWindow(IDisplayDialog displayDialog = null)
         {
@@ -46,13 +48,11 @@ namespace ShopAssist.Views
             this.customerPage = new CustomerPage(mainWindowViewModel);
             this.inventoryPage = new InventoryPage(mainWindowViewModel);
             this.categoryPage = new CategoryPage(mainWindowViewModel);
+            this.checkoutPage = new CheckoutPage(mainWindowViewModel);
+            this.directionsPage = new DirectionsPage(mainWindowViewModel);
 
             //Set initial navigation pages
             this.mainFrame.Navigate(this.welcomePage); //Cannot set in xaml with param
-            //BrowsePageViewModel browsePageViewModel = this.browsePage.DataContext as BrowsePageViewModel;
-            //this.browsePage.mediaTableFrame.Navigate(browsePageViewModel.browseBooksPage);
-            //DonatePageViewModel donatePageViewModel = this.donatePage.DataContext as DonatePageViewModel;
-            //this.donatePage.mediaTableFrame.Navigate(donatePageViewModel.bookDonationPage);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
