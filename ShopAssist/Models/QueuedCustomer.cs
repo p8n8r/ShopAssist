@@ -18,7 +18,7 @@ namespace ShopAssist.Models
         public Register Register { get; set; }
         public int Position { get; set; }
         public DateTime CheckoutEnteredTime { get; set; }
-        public DateTime CheckoutStartTime { get; set; }
+        //public DateTime CheckoutStartTime { get; set; }
         public DateTime CheckoutEndTime { get; set; }
 
         public int CompareTo(QueuedCustomer other)

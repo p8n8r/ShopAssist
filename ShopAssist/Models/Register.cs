@@ -42,12 +42,12 @@ namespace ShopAssist.Models
                 queuedCustomer.Position = position++;
         }
 
-        public QueuedCustomer Checkout()
+        public QueuedCustomer LeaveCheckout()
         {
             if (this.QueuedCustomers.Count > 0)
             {
                 QueuedCustomer queuedCustomer = this.QueuedCustomers.RemoveMin();
-                queuedCustomer.CheckoutStartTime = DateTime.Now;
+                queuedCustomer.CheckoutEndTime = DateTime.Now;
 
                 UpdateQueuedCustomerPositions();
 
@@ -56,10 +56,10 @@ namespace ShopAssist.Models
             return null;
         }
 
-        public void LeaveCheckout(QueuedCustomer queuedCustomer)
-        {
-            queuedCustomer.CheckoutEndTime = DateTime.Now;
-        }
+        //public void LeaveCheckout(QueuedCustomer queuedCustomer)
+        //{
+        //    queuedCustomer.CheckoutEndTime = DateTime.Now;
+        //}
 
         public bool AreCustomersWaiting()
         {

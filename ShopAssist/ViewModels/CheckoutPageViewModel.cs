@@ -1,4 +1,6 @@
-﻿using ShopAssist.Models;
+﻿using Microsoft.Win32;
+using ShopAssist.Models;
+using ShopAssist.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,7 +16,9 @@ namespace ShopAssist.ViewModels
         private const int MIN_INITIAL_CUSTOMERS = 5, MAX_INITIAL_CUSTOMERS = 10;
         private const int REGISTER1 = 0, REGISTER2 = 1, REGISTER3 = 2;
         private MainWindowViewModel mainWindowViewModel;
+        private CheckoutPage checkoutPage;
         private string log;
+        private Register[] registers;
         private List<Customer> customers, customersReadyToCheckout, customersInCheckout;
         private ObservableCollection<Customer> register1Customers, register2Customers, register3Customers;
         private Random random;
@@ -49,14 +53,16 @@ namespace ShopAssist.ViewModels
             this.mainWindowViewModel = mainWindowViewModel;
         }
 
-        private void RestartShopping()
+        private async void RestartShopping()
         {
+            this.checkoutPage = this.mainWindowViewModel.GetCurrentPage() as CheckoutPage;
+
             this.Log = string.Empty; //Clear log
             this.Register1Customers = new ObservableCollection<Customer>();
             this.Register2Customers = new ObservableCollection<Customer>();
             this.Register3Customers = new ObservableCollection<Customer>();
 
-            Register[] registers = new Register[3]
+            this.registers = new Register[3]
             {
                 new Register("Register 1"),
                 new Register("Register 2"),
@@ -72,13 +78,24 @@ namespace ShopAssist.ViewModels
             int initialCustomerCount = this.random.Next(MIN_INITIAL_CUSTOMERS, MAX_INITIAL_CUSTOMERS);
             for (int i = 0; i < initialCustomerCount; i++)
             {
-                Customer customer = this.customersReadyToCheckout[random.Next(this.customersReadyToCheckout.Count)];
-                this.customersReadyToCheckout.Remove(customer);
-                this.customersInCheckout.Add(customer);
+                await CustomerEntersCheckoutAsync();
+            }
 
-                Register registerLeastBusy = Register.SelectLeastBusyRegister(registers);
+            while (this.mainWindowViewModel.GetCurrentPage() is CheckoutPage)
+            {
+                await CustomerEntersCheckoutAsync();
+                await Task.Delay(random.Next(1000, 2000));
+                await CustomerExitsCheckoutAsync();
+                await Task.Delay(random.Next(1000, 2000));
+            }
+        }
 
-                int registerNum = Array.IndexOf(registers, registerLeastBusy);
+        private void AddCustomerToRegister(Customer customer, Register register)
+        {
+            int registerNum = Array.IndexOf(registers, register);
+
+            this.checkoutPage.Dispatcher.Invoke(() =>
+            {
                 switch (registerNum)
                 {
                     case REGISTER1:
@@ -91,25 +108,65 @@ namespace ShopAssist.ViewModels
                         this.Register3Customers.Add(customer);
                         break;
                 }
+            });
+        }
 
+        private void RemoveCustomerFromRegister(Customer customer, Register register)
+        {
+            int registerNum = Array.IndexOf(registers, register);
+
+            this.checkoutPage.Dispatcher.Invoke(() =>
+            {
+                switch (registerNum)
+                {
+                    case REGISTER1:
+                        this.Register1Customers.Remove(customer);
+                        break;
+                    case REGISTER2:
+                        this.Register2Customers.Remove(customer);
+                        break;
+                    case REGISTER3:
+                        this.Register3Customers.Remove(customer);
+                        break;
+                }
+            });
+        }
+
+        private async Task CustomerEntersCheckoutAsync()
+        {
+            if (this.customersReadyToCheckout.Count > 0)
+            {
+                //Choose random customer to start business at least busy register
+                Customer customer = this.customersReadyToCheckout[random.Next(this.customersReadyToCheckout.Count)];
+                this.customersReadyToCheckout.Remove(customer);
+                this.customersInCheckout.Add(customer);
+
+                Register registerLeastBusy = Register.SelectLeastBusyRegister(registers);
+                AddCustomerToRegister(customer, registerLeastBusy);
                 registerLeastBusy.EnterCheckout(customer);
+
+                //Log it!
             }
+        }
 
-            //while (registers.Any(r => r.AreCustomersWaiting()))
-            //{
+        private async Task CustomerExitsCheckoutAsync()
+        {
+            if (this.registers.Any(r => r.QueuedCustomers.Count > 0))
+            {
+                //Choose random register to have finished business with customer
+                Register register = registers[random.Next(registers.Count())];
+                QueuedCustomer queuedCustomer = register.LeaveCheckout();
 
+                if (queuedCustomer != null)
+                {
+                    Customer customer = this.customersInCheckout.First(c => c.Membership.Id == queuedCustomer.Membership.Id);
+                    this.customersInCheckout.Remove(customer); 
+                    this.customersReadyToCheckout.Add(customer);
+                    RemoveCustomerFromRegister(customer, register);
+                }
 
-            //    //foreach (Register register in registers)
-            //    //{
-            //    //    foreach (QueuedCustomer queuedCustomer in register.QueuedCustomers)
-            //    //    {
-
-            //    //    }
-            //    //}
-
-
-            //    //...
-            //}
+                //Log it!
+            }
         }
     }
 }
