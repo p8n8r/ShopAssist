@@ -19,6 +19,7 @@ namespace ShopAssist.Models
         public int Position { get; set; }
         public DateTime CheckoutEnteredTime { get; set; }
         public DateTime CheckoutEndTime { get; set; }
+        public string MemberPriority { get { return $"{this.Name} ({this.Membership.MembershipLevel} Priority)"; } }
 
         public int CompareTo(QueuedCustomer other)
         {

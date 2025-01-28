@@ -49,7 +49,7 @@ namespace ShopAssist.ViewModels
                 new Customer() { Name = "Peyton Stults", Membership = new Membership() { Id = 1, MembershipLevel = MembershipLevel.High} },
                 new Customer() { Name = "Addison Stults", Membership = new Membership() { Id = 2, MembershipLevel = MembershipLevel.Medium} },
                 new Customer() { Name = "Parker Stults", Membership = new Membership() { Id = 3, MembershipLevel = MembershipLevel.Low} },
-                new Customer() { Name = "Will Stults", Membership = new Membership() { Id = 4, MembershipLevel = MembershipLevel.None} }
+                new Customer() { Name = "Will Stults", Membership = new Membership() { Id = 4, MembershipLevel = MembershipLevel.No} }
             };
 
             this.Store.Inventory = new Dictionary<int, Item>()

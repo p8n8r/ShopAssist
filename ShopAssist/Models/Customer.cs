@@ -11,7 +11,6 @@ namespace ShopAssist.Models
     {
         public string Name { get; set; }
         public Membership Membership { get; set; }
-        public string MemberPriority { get { return $"{this.Name} ({this.Membership.MembershipLevel})"; } }
 
         public int CompareTo(Customer other)
         {
