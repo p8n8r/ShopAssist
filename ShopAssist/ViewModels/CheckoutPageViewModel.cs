@@ -146,6 +146,8 @@ namespace ShopAssist.ViewModels
                 registerLeastBusy.EnterCheckout(customer);
 
                 //Log it!
+                string message = $"{customer.Name} has entered {registerLeastBusy.Name}.";
+                LogMessage(message);
             }
         }
 
@@ -163,10 +165,19 @@ namespace ShopAssist.ViewModels
                     this.customersInCheckout.Remove(customer); 
                     this.customersReadyToCheckout.Add(customer);
                     RemoveCustomerFromRegister(customer, register);
-                }
 
-                //Log it!
+                    TimeSpan timeWaited = queuedCustomer.CheckoutEndTime - queuedCustomer.CheckoutEnteredTime;
+
+                    //Log it!
+                    string message = $"{customer.Name} waited for {(int)timeWaited.TotalSeconds} seconds and has left {register.Name}.";
+                    LogMessage(message);
+                }
             }
+        }
+
+        private void LogMessage(string message)
+        {
+            this.Log += message + "\n";
         }
     }
 }
