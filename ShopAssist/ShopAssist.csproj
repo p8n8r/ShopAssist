@@ -41,6 +41,9 @@
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.135\lib\net462\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
+    <Reference Include="PommaLabs.Hippie, Version=3.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PommaLabs.Hippie.3.2.0\lib\netstandard2.0\PommaLabs.Hippie.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -68,6 +71,8 @@
     <Compile Include="IDisplayDialog.cs" />
     <Compile Include="ListOperations.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\QueuedCustomer.cs" />
+    <Compile Include="Models\Register.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="ViewModels\CategoryPageViewModel.cs" />
     <Compile Include="ViewModels\CheckoutPageViewModel.cs" />
