@@ -32,5 +32,13 @@ namespace ShopAssist.Views
         {
             (this.DataContext as CheckoutPageViewModel).reloadCmd.Execute();
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.Dispatcher.InvokeAsync(() =>
+            {
+                (sender as TextBox).ScrollToEnd();
+            }, System.Windows.Threading.DispatcherPriority.Render);
+        }
     }
 }

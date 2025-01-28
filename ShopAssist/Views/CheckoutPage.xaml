@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:ShopAssist.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="CheckoutPage" Background="AliceBlue" Loaded="Page_Loaded">
+      Title="CheckoutPage" Loaded="Page_Loaded">
 
     <Grid Margin="30">
         <Grid>
@@ -45,7 +45,7 @@
                 <ListBox ItemsSource="{Binding Register3Customers}" DisplayMemberPath="Name" Grid.Row="1" Margin="20,0,20,10"/>
             </Grid>
             <Label Content="Log" Grid.Row="1" Margin="20,0,20,0"/>
-            <TextBox Text="{Binding Log}" Grid.Row="2" Grid.ColumnSpan="3"  Margin="20,0,20,20" VerticalScrollBarVisibility="Auto"/>
+            <TextBox Text="{Binding Log, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Grid.Row="2" Grid.ColumnSpan="3"  Margin="20,0,20,20" VerticalScrollBarVisibility="Auto" TextChanged="TextBox_TextChanged"/>
         </Grid>
     </Grid>
 </Page>
