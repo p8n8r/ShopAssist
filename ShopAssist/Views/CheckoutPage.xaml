@@ -12,6 +12,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -43,7 +44,8 @@
                 <Label Content="Register 3" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <ListBox ItemsSource="{Binding Register3Customers}" DisplayMemberPath="Name" Grid.Row="1" Margin="20,0,20,10"/>
             </Grid>
-            <TextBox Text="{Binding Log}" Grid.Row="1" Grid.ColumnSpan="3"  Margin="20"/>
+            <Label Content="Log" Grid.Row="1" Margin="20,0,20,0"/>
+            <TextBox Text="{Binding Log}" Grid.Row="2" Grid.ColumnSpan="3"  Margin="20,0,20,20" VerticalScrollBarVisibility="Auto"/>
         </Grid>
     </Grid>
 </Page>
