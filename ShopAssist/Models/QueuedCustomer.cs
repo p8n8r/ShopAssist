@@ -18,12 +18,11 @@ namespace ShopAssist.Models
         public Register Register { get; set; }
         public int Position { get; set; }
         public DateTime CheckoutEnteredTime { get; set; }
-        //public DateTime CheckoutStartTime { get; set; }
         public DateTime CheckoutEndTime { get; set; }
 
         public int CompareTo(QueuedCustomer other)
         {
-            int priorityComparison = this.Membership.MembershipLevel.CompareTo(this.Membership.MembershipLevel);
+            int priorityComparison = this.Membership.MembershipLevel.CompareTo(other.Membership.MembershipLevel);
 
             if (priorityComparison != 0)
                 return priorityComparison;

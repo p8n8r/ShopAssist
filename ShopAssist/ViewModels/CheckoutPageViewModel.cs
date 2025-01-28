@@ -20,23 +20,23 @@ namespace ShopAssist.ViewModels
         private string log;
         private Register[] registers;
         private List<Customer> customers, customersReadyToCheckout, customersInCheckout;
-        private ObservableCollection<Customer> register1Customers, register2Customers, register3Customers;
+        private ObservableCollection<QueuedCustomer> register1Customers, register2Customers, register3Customers;
         private Random random;
         public RelayCommand reloadCmd => new RelayCommand(execute => RestartShopping());
 
-        public ObservableCollection<Customer> Register1Customers
+        public ObservableCollection<QueuedCustomer> Register1Customers
         {
             get { return this.register1Customers; }
             set { this.register1Customers = value; OnPropertyChanged(); }
         }
 
-        public ObservableCollection<Customer> Register2Customers
+        public ObservableCollection<QueuedCustomer> Register2Customers
         {
             get { return this.register2Customers; }
             set { this.register2Customers = value; OnPropertyChanged(); }
         }
 
-        public ObservableCollection<Customer> Register3Customers
+        public ObservableCollection<QueuedCustomer> Register3Customers
         {
             get { return this.register3Customers; }
             set { this.register3Customers = value; OnPropertyChanged(); }
@@ -58,9 +58,9 @@ namespace ShopAssist.ViewModels
             this.checkoutPage = this.mainWindowViewModel.GetCurrentPage() as CheckoutPage;
 
             this.Log = string.Empty; //Clear log
-            this.Register1Customers = new ObservableCollection<Customer>();
-            this.Register2Customers = new ObservableCollection<Customer>();
-            this.Register3Customers = new ObservableCollection<Customer>();
+            this.Register1Customers = new ObservableCollection<QueuedCustomer>();
+            this.Register2Customers = new ObservableCollection<QueuedCustomer>();
+            this.Register3Customers = new ObservableCollection<QueuedCustomer>();
 
             this.registers = new Register[3]
             {
@@ -90,7 +90,7 @@ namespace ShopAssist.ViewModels
             }
         }
 
-        private void AddCustomerToRegister(Customer customer, Register register)
+        private void AddCustomerToRegister(QueuedCustomer customer, Register register)
         {
             int registerNum = Array.IndexOf(registers, register);
 
@@ -100,18 +100,21 @@ namespace ShopAssist.ViewModels
                 {
                     case REGISTER1:
                         this.Register1Customers.Add(customer);
+                        this.Register1Customers.Sort();
                         break;
                     case REGISTER2:
                         this.Register2Customers.Add(customer);
+                        this.Register2Customers.Sort();
                         break;
                     case REGISTER3:
                         this.Register3Customers.Add(customer);
+                        this.Register3Customers.Sort();
                         break;
                 }
             });
         }
 
-        private void RemoveCustomerFromRegister(Customer customer, Register register)
+        private void RemoveCustomerFromRegister(QueuedCustomer customer, Register register)
         {
             int registerNum = Array.IndexOf(registers, register);
 
@@ -121,12 +124,15 @@ namespace ShopAssist.ViewModels
                 {
                     case REGISTER1:
                         this.Register1Customers.Remove(customer);
+                        this.Register1Customers.Sort();
                         break;
                     case REGISTER2:
                         this.Register2Customers.Remove(customer);
+                        this.Register2Customers.Sort();
                         break;
                     case REGISTER3:
                         this.Register3Customers.Remove(customer);
+                        this.Register3Customers.Sort();
                         break;
                 }
             });
@@ -142,11 +148,12 @@ namespace ShopAssist.ViewModels
                 this.customersInCheckout.Add(customer);
 
                 Register registerLeastBusy = Register.SelectLeastBusyRegister(registers);
-                AddCustomerToRegister(customer, registerLeastBusy);
-                registerLeastBusy.EnterCheckout(customer);
+                QueuedCustomer queuedCustomer = new QueuedCustomer(customer);
+                AddCustomerToRegister(queuedCustomer, registerLeastBusy);
+                registerLeastBusy.EnterCheckout(queuedCustomer);
 
                 //Log it!
-                string message = $"{customer.Name} has entered {registerLeastBusy.Name}.";
+                string message = $"{queuedCustomer.MemberPriority} has entered {registerLeastBusy.Name}.";
                 LogMessage(message);
             }
         }
@@ -164,12 +171,12 @@ namespace ShopAssist.ViewModels
                     Customer customer = this.customersInCheckout.First(c => c.Membership.Id == queuedCustomer.Membership.Id);
                     this.customersInCheckout.Remove(customer); 
                     this.customersReadyToCheckout.Add(customer);
-                    RemoveCustomerFromRegister(customer, register);
+                    RemoveCustomerFromRegister(queuedCustomer, register);
 
                     TimeSpan timeWaited = queuedCustomer.CheckoutEndTime - queuedCustomer.CheckoutEnteredTime;
 
                     //Log it!
-                    string message = $"{customer.Name} waited for {(int)timeWaited.TotalSeconds} seconds and has left {register.Name}.";
+                    string message = $"{queuedCustomer.MemberPriority} waited for {(int)timeWaited.TotalSeconds} seconds and has left {register.Name}.";
                     LogMessage(message);
                 }
             }

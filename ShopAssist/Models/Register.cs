@@ -20,15 +20,11 @@ namespace ShopAssist.Models
             this.QueuedCustomers = HeapFactory.NewFibonacciHeap<QueuedCustomer>();
         }
 
-        public void EnterCheckout(Customer customer)
+        public void EnterCheckout(QueuedCustomer queuedCustomer)
         {
-            QueuedCustomer queuedCustomer = new QueuedCustomer(customer)
-            {
-                Register = this,
-                CheckoutEnteredTime = DateTime.Now
-            };
-
-            totalQueuedCustomers++;
+            queuedCustomer.Register = this;
+            queuedCustomer.CheckoutEnteredTime = DateTime.Now;
+            this.totalQueuedCustomers++;
 
             this.QueuedCustomers.Add(queuedCustomer);
 
@@ -55,11 +51,6 @@ namespace ShopAssist.Models
             }
             return null;
         }
-
-        //public void LeaveCheckout(QueuedCustomer queuedCustomer)
-        //{
-        //    queuedCustomer.CheckoutEndTime = DateTime.Now;
-        //}
 
         public bool AreCustomersWaiting()
         {
