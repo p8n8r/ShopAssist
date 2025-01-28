@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShopAssist.ViewModels
 {
-    internal class DirectionsPageViewModel
+    internal class DirectionsPageViewModel : ViewModelBase
     {
         private MainWindowViewModel mainWindowViewModel;
 

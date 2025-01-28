@@ -27,5 +27,10 @@ namespace ShopAssist.Views
 
             this.DataContext = new CheckoutPageViewModel(mainWindowViewModel);
         }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            (this.DataContext as CheckoutPageViewModel).reloadCmd.Execute();
+        }
     }
 }

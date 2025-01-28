@@ -6,9 +6,44 @@
       xmlns:local="clr-namespace:ShopAssist.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="CheckoutPage">
+      Title="CheckoutPage" Background="AliceBlue" Loaded="Page_Loaded">
 
-    <Grid>
-        
+    <Grid Margin="30">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Content="Register 1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <ListBox ItemsSource="{Binding Register1Customers}" DisplayMemberPath="Name" Grid.Row="1" Margin="20,0,20,10"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Content="Register 2" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <ListBox ItemsSource="{Binding Register2Customers}" DisplayMemberPath="Name" Grid.Row="1" Margin="20,0,20,10"/>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Content="Register 3" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <ListBox ItemsSource="{Binding Register3Customers}" DisplayMemberPath="Name" Grid.Row="1" Margin="20,0,20,10"/>
+            </Grid>
+            <TextBox Text="{Binding Log}" Grid.Row="1" Grid.ColumnSpan="3"  Margin="20"/>
+        </Grid>
     </Grid>
 </Page>
