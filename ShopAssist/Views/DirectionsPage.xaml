@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:ShopAssist.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="DirectionsPage">
+      Title="DirectionsPage" Loaded="Page_Loaded">
 
     <Grid>
         <Canvas Name="MainCanvas">
