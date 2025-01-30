@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace ShopAssist.ViewModels
 {
-    public class ObservableGraphEdge<T> : GraphEdge<T>, INotifyPropertyChanged
+    public class ObservableGraphEdge : GraphEdge, INotifyPropertyChanged
     {
-        public ObservableGraphEdge(GraphNode<T> from, GraphNode<T> to, int weight) : base(from, to, weight) { }
+        public ObservableGraphEdge(GraphNode from, GraphNode to, int weight) : base(from, to, weight) { }
 
-        public new GraphNode<T> From
+        public new GraphNode From
         {
             get { return base.From; }
             set { if (base.From != value) { base.From = value; OnPropertyChanged(); } }
         }
 
-        public new GraphNode<T> To
+        public new GraphNode To
         {
             get { return base.To; }
             set { if (base.To != value) { base.To = value; OnPropertyChanged(); } }

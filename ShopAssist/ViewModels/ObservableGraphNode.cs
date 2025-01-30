@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace ShopAssist.ViewModels
 {
-    public class ObservableGraphNode<T> : GraphNode<T>, INotifyPropertyChanged
+    public class ObservableGraphNode : GraphNode, INotifyPropertyChanged
     {
         private int x, y;
 
-        public ObservableGraphNode(int x, int y)
+        public ObservableGraphNode(string name, int x, int y) : base(name)
         {
             this.X = x;
             this.Y = y;
@@ -37,7 +37,7 @@ namespace ShopAssist.ViewModels
             set { if (base.Distance != value) { base.Distance = value; OnPropertyChanged(); } }
         }
 
-        public new List<GraphEdge<T>> Edges
+        public new List<GraphEdge> Edges
         {
             get { return base.Edges; }
             set { if (base.Edges != value) { base.Edges = value; OnPropertyChanged(); } }

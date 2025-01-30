@@ -8,9 +8,15 @@ using System.Windows.Media;
 
 namespace ShopAssist.Models
 {
-    public class GraphNode<T>
+    public class GraphNode
     {
-        public List<GraphEdge<T>> Edges { get; set; }
+        public string Name {  get; set; }
+        public List<GraphEdge> Edges { get; set; }
         public int Distance { get; set; } = int.MaxValue;
+
+        public GraphNode(string name)
+        {
+            this.Name = name;
+        }
     }
 }

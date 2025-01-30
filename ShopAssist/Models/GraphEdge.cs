@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace ShopAssist.Models
 {
-    public class GraphEdge<T>
+    public class GraphEdge
     {
-        public GraphNode<T> From { get; set; }
-        public GraphNode<T> To { get; set; }
+        public GraphNode From { get; set; }
+        public GraphNode To { get; set; }
         public int Weight { get; set; }
 
-        public GraphEdge(GraphNode<T> from, GraphNode<T> to, int weight)
+        public GraphEdge(GraphNode from, GraphNode to, int weight)
         {
             this.From = from;
             this.To = to;

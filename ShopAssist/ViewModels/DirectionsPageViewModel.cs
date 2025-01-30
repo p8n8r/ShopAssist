@@ -11,16 +11,16 @@ namespace ShopAssist.ViewModels
     internal class DirectionsPageViewModel : ViewModelBase
     {
         private MainWindowViewModel mainWindowViewModel;
-        private ObservableCollection<ObservableGraphNode<Item>> nodes;
-        private ObservableCollection<ObservableGraphEdge<Item>> edges;
+        private ObservableCollection<ObservableGraphNode> nodes;
+        private ObservableCollection<ObservableGraphEdge> edges;
 
-        public ObservableCollection<ObservableGraphNode<Item>> Nodes
+        public ObservableCollection<ObservableGraphNode> Nodes
         {
             get { return nodes; }
             set { if (nodes != value) { nodes = value; OnPropertyChanged(); } }
         }
 
-        public ObservableCollection<ObservableGraphEdge<Item>> Edges
+        public ObservableCollection<ObservableGraphEdge> Edges
         {
             get { return edges; }
             set { if (edges != value) { edges = value; OnPropertyChanged(); } }
@@ -34,15 +34,15 @@ namespace ShopAssist.ViewModels
 
         public void InitializeGraph()
         {
-            this.Nodes = new ObservableCollection<ObservableGraphNode<Item>>();
-            this.Edges = new ObservableCollection<ObservableGraphEdge<Item>>();
+            this.Nodes = new ObservableCollection<ObservableGraphNode>();
+            this.Edges = new ObservableCollection<ObservableGraphEdge>();
 
             //REPLACE WITH XML DATA
-            var entrance = new ObservableGraphNode<Item>(50, 50);
-            var exit = new ObservableGraphNode<Item>(150, 50);
-            var dairy = new ObservableGraphNode<Item>(100, 100);
-            var bakery = new ObservableGraphNode<Item>(200, 200);
-            var produce = new ObservableGraphNode<Item>(300, 100);
+            var entrance = new ObservableGraphNode("Entrance", 50, 50);
+            var exit = new ObservableGraphNode("Exit", 150, 50);
+            var dairy = new ObservableGraphNode("Dairy", 100, 100);
+            var bakery = new ObservableGraphNode("Bakery", 200, 200);
+            var produce = new ObservableGraphNode("Produce", 300, 100);
 
             this.Nodes.Add(entrance);
             this.Nodes.Add(exit);
@@ -50,12 +50,12 @@ namespace ShopAssist.ViewModels
             this.Nodes.Add(bakery);
             this.Nodes.Add(produce);
 
-            var edgeEntrance = new ObservableGraphEdge<Item>(entrance, bakery, 0);
-            var edge0 = new ObservableGraphEdge<Item>(entrance, exit, 0);
-            var edge1 = new ObservableGraphEdge<Item>(dairy, bakery, 1);
-            var edge2 = new ObservableGraphEdge<Item>(bakery, produce, 2);
-            var edge3 = new ObservableGraphEdge<Item>(produce, dairy, 3);
-            var edgeExit = new ObservableGraphEdge<Item>(exit, dairy, 3);
+            var edgeEntrance = new ObservableGraphEdge(entrance, bakery, 0);
+            var edge0 = new ObservableGraphEdge(entrance, exit, 0);
+            var edge1 = new ObservableGraphEdge(dairy, bakery, 1);
+            var edge2 = new ObservableGraphEdge(bakery, produce, 2);
+            var edge3 = new ObservableGraphEdge(produce, dairy, 3);
+            var edgeExit = new ObservableGraphEdge(exit, dairy, 3);
 
             this.Edges.Add(edgeEntrance);
             this.Edges.Add(edge0);
@@ -65,26 +65,26 @@ namespace ShopAssist.ViewModels
             this.Edges.Add(edgeExit);
         }
 
-        public List<GraphNode<Item>> FindShortestPath(IEnumerable<GraphNode<Item>> nodes, 
-            GraphNode<Item> startNode, GraphNode<Item> endNode)
+        public List<GraphNode> FindShortestPath(IEnumerable<GraphNode> nodes, 
+            GraphNode startNode, GraphNode endNode)
         {
-            SortedSet<GraphNode<Item>> priorityQueue = new SortedSet<GraphNode<Item>>(
-                Comparer<GraphNode<Item>>.Create((n1, n2) => n1.Distance.CompareTo(n2.Distance)));
+            SortedSet<GraphNode> priorityQueue = new SortedSet<GraphNode>(
+                Comparer<GraphNode>.Create((n1, n2) => n1.Distance.CompareTo(n2.Distance)));
 
             startNode.Distance = 0;
             priorityQueue.Add(startNode);
 
             while (priorityQueue.Any())
             {
-                GraphNode<Item> currentNode = priorityQueue.Min();
+                GraphNode currentNode = priorityQueue.Min();
                 priorityQueue.Remove(currentNode);
 
                 if (currentNode == null)
                     break;
 
-                foreach (GraphEdge<Item> edge in currentNode.Edges)
+                foreach (GraphEdge edge in currentNode.Edges)
                 {
-                    GraphNode<Item> neighborNode = edge.To;
+                    GraphNode neighborNode = edge.To;
                     int distanceNew = currentNode.Distance = edge.Weight;
 
                     if (distanceNew < neighborNode.Distance)
@@ -96,8 +96,8 @@ namespace ShopAssist.ViewModels
                 }
             }
 
-            List<GraphNode<Item>> path = new List<GraphNode<Item>>();
-            GraphNode<Item> addNode = endNode;
+            List<GraphNode> path = new List<GraphNode>();
+            GraphNode addNode = endNode;
 
             while (addNode != null)
             {
