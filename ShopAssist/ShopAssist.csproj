@@ -71,6 +71,8 @@
     <Compile Include="IDisplayDialog.cs" />
     <Compile Include="ListOperations.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\GraphEdge.cs" />
+    <Compile Include="Models\GraphNode.cs" />
     <Compile Include="Models\QueuedCustomer.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="Utility.cs" />
@@ -80,6 +82,8 @@
     <Compile Include="ViewModels\DirectionsPageViewModel.cs" />
     <Compile Include="ViewModels\InventoryPageViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\ObservableGraphEdge.cs" />
+    <Compile Include="ViewModels\ObservableGraphNode.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\CategoryPage.xaml.cs">
