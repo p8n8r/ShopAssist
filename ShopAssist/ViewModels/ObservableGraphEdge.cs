@@ -36,5 +36,10 @@ namespace ShopAssist.ViewModels
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public static ObservableGraphEdge EdgeToObservableEdge(GraphEdge edge)
+        {
+            return new ObservableGraphEdge(edge.From, edge.To, edge.Weight);
+        }
     }
 }

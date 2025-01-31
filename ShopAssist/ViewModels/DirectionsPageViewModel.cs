@@ -16,10 +16,9 @@ namespace ShopAssist.ViewModels
     {
         private MainWindowViewModel mainWindowViewModel;
         private DirectionsPage directionsPage;
+        //private Graph directionsGraph; 
         private ObservableCollection<ObservableGraphNode> nodes;
         private ObservableCollection<ObservableGraphEdge> edges;
-        public RelayCommand reloadCmd => new RelayCommand(execute => ReloadCategories());
-
         public ObservableCollection<ObservableGraphNode> Nodes
         {
             get { return nodes; }
@@ -32,14 +31,21 @@ namespace ShopAssist.ViewModels
             set { if (edges != value) { edges = value; OnPropertyChanged(); } }
         }
 
+        public RelayCommand reloadCmd => new RelayCommand(execute => RestartDirections());
+
         public DirectionsPageViewModel(MainWindowViewModel mainWindowViewModel)
         {
             this.mainWindowViewModel = mainWindowViewModel;
-            InitializeGraph();
         }
 
-        private void ReloadCategories()
+        private void RestartDirections()
         {
+            Graph directionsGraph = this.mainWindowViewModel.Store.DirectionsGraph;
+            this.Nodes = new ObservableCollection<ObservableGraphNode>(
+                directionsGraph.Nodes.ConvertAll(ObservableGraphNode.NodeToObservableNode));
+            this.Edges = new ObservableCollection<ObservableGraphEdge>(
+                directionsGraph.Edges.ConvertAll(ObservableGraphEdge.EdgeToObservableEdge));
+
             this.directionsPage = this.mainWindowViewModel.GetCurrentPage() as DirectionsPage;
             ShowShortestPath();
         }
@@ -56,39 +62,6 @@ namespace ShopAssist.ViewModels
             }
         }
 
-        public void InitializeGraph()
-        {
-            this.Nodes = new ObservableCollection<ObservableGraphNode>();
-            this.Edges = new ObservableCollection<ObservableGraphEdge>();
-
-            //REPLACE WITH XML DATA
-            var entrance = new ObservableGraphNode("Entrance", 50, 50);
-            var exit = new ObservableGraphNode("Exit", 150, 50);
-            var dairy = new ObservableGraphNode("Dairy", 100, 100);
-            var bakery = new ObservableGraphNode("Bakery", 200, 200);
-            var produce = new ObservableGraphNode("Produce", 300, 100);
-
-            this.Nodes.Add(entrance);
-            this.Nodes.Add(exit);
-            this.Nodes.Add(dairy);
-            this.Nodes.Add(bakery);
-            this.Nodes.Add(produce);
-
-            var edgeEntrance = new ObservableGraphEdge(entrance, bakery, 0);
-            var edge0 = new ObservableGraphEdge(entrance, exit, 0);
-            var edge1 = new ObservableGraphEdge(dairy, bakery, 1);
-            var edge2 = new ObservableGraphEdge(bakery, produce, 2);
-            var edge3 = new ObservableGraphEdge(produce, dairy, 3);
-            var edgeExit = new ObservableGraphEdge(exit, dairy, 3);
-
-            this.Edges.Add(edgeEntrance);
-            this.Edges.Add(edge0);
-            this.Edges.Add(edge1);
-            this.Edges.Add(edge2);
-            this.Edges.Add(edge3);
-            this.Edges.Add(edgeExit);
-        }
-
         public List<GraphNode> FindShortestPath(GraphNode startNode, GraphNode endNode)
         {
             SortedSet<GraphNode> priorityQueue = new SortedSet<GraphNode>(
@@ -99,7 +72,7 @@ namespace ShopAssist.ViewModels
 
             while (priorityQueue.Any())
             {
-                GraphNode currentNode = priorityQueue.Min();
+                GraphNode currentNode = priorityQueue.Min(); //First()? ??? //pts7
                 priorityQueue.Remove(currentNode);
 
                 if (currentNode == null)
@@ -114,6 +87,7 @@ namespace ShopAssist.ViewModels
 
                         if (distanceNew < neighborNode.Distance)
                         {
+                            //pts7 ???
                             priorityQueue.Remove(neighborNode);
                             neighborNode.Distance = distanceNew;
                             priorityQueue.Add(neighborNode);
@@ -137,6 +111,8 @@ namespace ShopAssist.ViewModels
 
         private void HighlightPath(IEnumerable<GraphNode> path)
         {
+            //this.dataGrid = (this.mainWindowViewModel.GetCurrentPage() as InventoryPage).FindName("inventoryDataGrid") as DataGrid; //pts7 remove
+
             foreach (GraphNode node in path)
             {
                 //var ellipse = directionsPage.MainCanvas.Children.OfType<Ellipse>().FirstOrDefault(

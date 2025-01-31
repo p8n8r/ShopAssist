@@ -71,8 +71,10 @@
     <Compile Include="IDisplayDialog.cs" />
     <Compile Include="ListOperations.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\Graph.cs" />
     <Compile Include="Models\GraphEdge.cs" />
     <Compile Include="Models\GraphNode.cs" />
+    <Compile Include="Models\ObservableGraph.cs" />
     <Compile Include="Models\QueuedCustomer.cs" />
     <Compile Include="Models\Register.cs" />
     <Compile Include="Utility.cs" />

@@ -11,24 +11,18 @@ namespace ShopAssist.ViewModels
 {
     public class ObservableGraphNode : GraphNode, INotifyPropertyChanged
     {
-        private int x, y;
+        public ObservableGraphNode(string name, int x, int y) : base(name, x, y) { }
 
-        public ObservableGraphNode(string name, int x, int y) : base(name)
+        public new int X
         {
-            this.X = x;
-            this.Y = y;
+            get { return base.X; }
+            set { if (base.X != value) { base.X = value; OnPropertyChanged(); } }
         }
 
-        public int X
+        public new int Y
         {
-            get { return x; }
-            set { if (x != value) { x = value; OnPropertyChanged(); } }
-        }
-
-        public int Y
-        {
-            get { return y; }
-            set { if (y != value) { y = value; OnPropertyChanged(); } }
+            get { return base.Y; }
+            set { if (base.Y != value) { base.Y = value; OnPropertyChanged(); } }
         }
 
         public new int Distance
@@ -47,6 +41,11 @@ namespace ShopAssist.ViewModels
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public static ObservableGraphNode NodeToObservableNode(GraphNode node)
+        {
+            return new ObservableGraphNode(node.Name, node.X, node.Y);
         }
     }
 }

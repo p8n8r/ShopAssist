@@ -41,7 +41,7 @@ namespace ShopAssist.ViewModels
             //AddJunkData(); // <---- REMOVE THIS 
         }
 
-        private void AddJunkData()
+        private void AddJunkData() // <---- REMOVE THIS 
         {
             //Add junk data
             this.Store.Customers = new List<Customer>()
@@ -128,6 +128,36 @@ namespace ShopAssist.ViewModels
 
             this.Store.Categories.Root.Children[0].Children[0].Parent = this.Store.Categories.Root.Children[0];
             this.Store.Categories.Root.Children[0].Children[1].Parent = this.Store.Categories.Root.Children[0];
+
+            this.Store.DirectionsGraph = new Graph();
+
+            //REPLACE WITH XML DATA
+            var entrance = new GraphNode("Entrance", 50, 50);
+            var exit = new GraphNode("Exit", 150, 50);
+            var dairy = new GraphNode("Dairy", 100, 100);
+            var bakery = new GraphNode("Bakery", 200, 200);
+            var produce = new GraphNode("Produce", 300, 100);
+
+            this.Store.DirectionsGraph.Nodes.Add(entrance);
+            this.Store.DirectionsGraph.Nodes.Add(exit);
+            this.Store.DirectionsGraph.Nodes.Add(dairy);
+            this.Store.DirectionsGraph.Nodes.Add(bakery);
+            this.Store.DirectionsGraph.Nodes.Add(produce);
+
+            var edgeEntrance = new GraphEdge(entrance, bakery, 0);
+            var edge0 = new GraphEdge(entrance, exit, 0);
+            var edge1 = new GraphEdge(dairy, bakery, 1);
+            var edge2 = new GraphEdge(bakery, produce, 2);
+            var edge3 = new GraphEdge(produce, dairy, 3);
+            var edgeExit = new GraphEdge(exit, dairy, 3);
+
+            this.Store.DirectionsGraph.Edges.Add(edgeEntrance);
+            this.Store.DirectionsGraph.Edges.Add(edge0);
+            this.Store.DirectionsGraph.Edges.Add(edge1);
+            this.Store.DirectionsGraph.Edges.Add(edge2);
+            this.Store.DirectionsGraph.Edges.Add(edge3);
+            this.Store.DirectionsGraph.Edges.Add(edgeExit);
+
             //...
         }
 
