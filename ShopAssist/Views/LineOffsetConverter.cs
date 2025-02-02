@@ -10,7 +10,8 @@ namespace ShopAssist.Views
 {
     public class LineOffsetConverter : IValueConverter
     {
-        private const int OFFSET = 25;
+        public const int OFFSET = 25;
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is int intValue)

@@ -138,9 +138,9 @@ namespace ShopAssist.ViewModels
             var dairy = new GraphNode("Dairy", 125, 75);
             var bakery = new GraphNode("Bakery", 125, 175);
             var fruits = new GraphNode("Fruits", 125, 275);
-            var vegs = new GraphNode("Veggies", 225, 50);
-            var meats = new GraphNode("Meat", 225, 155);
-            var drinks = new GraphNode("Drinks", 225, 255);
+            var veggies = new GraphNode("Veggies", 225, 50);
+            var meats = new GraphNode("Meat", 225, 200);
+            var drinks = new GraphNode("Drinks", 225, 300);
             var snacks = new GraphNode("Snacks", 325, 25);
             var pastas = new GraphNode("Pasta", 325, 150);
             var desserts = new GraphNode("Desserts", 325, 275);
@@ -156,7 +156,7 @@ namespace ShopAssist.ViewModels
             this.Store.DirectionsGraph.Nodes.Add(dairy);
             this.Store.DirectionsGraph.Nodes.Add(bakery);
             this.Store.DirectionsGraph.Nodes.Add(fruits);
-            this.Store.DirectionsGraph.Nodes.Add(vegs);
+            this.Store.DirectionsGraph.Nodes.Add(veggies);
             this.Store.DirectionsGraph.Nodes.Add(meats);
             this.Store.DirectionsGraph.Nodes.Add(drinks);
             this.Store.DirectionsGraph.Nodes.Add(snacks);
@@ -173,14 +173,15 @@ namespace ShopAssist.ViewModels
             {
                 new GraphEdge(entrance, bakery, 0),
                 new GraphEdge(entrance, exit, 0),
-                new GraphEdge(entrance, dairy, 0)
+                new GraphEdge(entrance, dairy, 0),
             };
 
             exit.Edges = new List<GraphEdge>() 
             {
                 new GraphEdge(exit, entrance, 0),
                 new GraphEdge(exit, dairy, 0),
-                new GraphEdge(exit, bakery, 0) 
+                new GraphEdge(exit, bakery, 0),
+                new GraphEdge(exit, fruits, 0) 
             };
 
             dairy.Edges = new List<GraphEdge>()
@@ -188,7 +189,7 @@ namespace ShopAssist.ViewModels
                 new GraphEdge(dairy, entrance, 0),
                 new GraphEdge(dairy, exit, 0),
                 new GraphEdge(dairy, bakery, 0),
-                new GraphEdge(dairy, vegs, 0),
+                new GraphEdge(dairy, veggies, 0),
                 new GraphEdge(dairy, meats, 0)
             };
 
@@ -199,6 +200,7 @@ namespace ShopAssist.ViewModels
                 new GraphEdge(bakery, dairy, 0),
                 new GraphEdge(bakery, fruits, 0),
                 new GraphEdge(bakery, meats, 0),
+                new GraphEdge(bakery, veggies, 0),
                 new GraphEdge(bakery, drinks, 0)
             };
 
@@ -210,13 +212,13 @@ namespace ShopAssist.ViewModels
                 new GraphEdge(fruits, drinks, 0)
             };
 
-            vegs.Edges = new List<GraphEdge>()
+            veggies.Edges = new List<GraphEdge>()
             {
-                new GraphEdge(vegs, dairy, 0),
-                new GraphEdge(vegs, bakery, 0),
-                new GraphEdge(vegs, meats, 0),
-                new GraphEdge(vegs, snacks, 0),
-                new GraphEdge(vegs, pastas, 0)
+                new GraphEdge(veggies, dairy, 0),
+                new GraphEdge(veggies, bakery, 0),
+                new GraphEdge(veggies, meats, 0),
+                new GraphEdge(veggies, snacks, 0),
+                new GraphEdge(veggies, pastas, 0)
             };
 
             meats.Edges = new List<GraphEdge>()
@@ -224,7 +226,7 @@ namespace ShopAssist.ViewModels
                 new GraphEdge(meats, dairy, 0),
                 new GraphEdge(meats, bakery, 0),
                 new GraphEdge(meats, fruits, 0),
-                new GraphEdge(meats, vegs, 0),
+                new GraphEdge(meats, veggies, 0),
                 new GraphEdge(meats, drinks, 0),
                 new GraphEdge(meats, snacks, 0),
                 new GraphEdge(meats, pastas, 0),
@@ -242,7 +244,7 @@ namespace ShopAssist.ViewModels
 
             snacks.Edges = new List<GraphEdge>()
             {
-                new GraphEdge(snacks, vegs, 0),
+                new GraphEdge(snacks, veggies, 0),
                 new GraphEdge(snacks, meats, 0),
                 new GraphEdge(snacks, pastas, 0),
                 new GraphEdge(snacks, pizza, 0)
@@ -250,7 +252,7 @@ namespace ShopAssist.ViewModels
 
             pastas.Edges = new List<GraphEdge>()
             {
-                new GraphEdge(pastas, vegs, 0),
+                new GraphEdge(pastas, veggies, 0),
                 new GraphEdge(pastas, meats, 0),
                 new GraphEdge(pastas, drinks, 0),
                 new GraphEdge(pastas, snacks, 0),

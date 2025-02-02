@@ -54,9 +54,10 @@ namespace ShopAssist.ViewModels
 
             this.Nodes = new ObservableCollection<GraphNode>(directionsGraph.Nodes);
             this.Edges = new ObservableCollection<GraphEdge>(directionsGraph.Edges);
-            RandomizeGraphWeights();
 
             this.directionsPage = this.mainWindowViewModel.GetCurrentPage() as DirectionsPage;
+
+            RandomizeGraphWeights();
         }
 
         private void RandomizeGraphWeights()
@@ -108,65 +109,72 @@ namespace ShopAssist.ViewModels
                 pathFull.AddRange(pathNodeToExit);
 
                 HighlightPath(pathFull);
-                RandomizeGraphWeights();
             }
         }
 
         public List<GraphEdge> FindShortestPath(GraphNode startNode, GraphNode endNode)
         {
-            //Graph directionsGraph = this.mainWindowViewModel.Store.DirectionsGraph;
-            //foreach (GraphNode node in directionsGraph.Nodes)
-            //    node.Edges.First().From.Distance = int.MaxValue;
+            Graph directionsGraph = this.mainWindowViewModel.Store.DirectionsGraph;
+            foreach (GraphNode node in directionsGraph.Nodes)
+                node.Edges.First().From.Distance = int.MaxValue;
 
-            //SortedSet<GraphNode> priorityQueue = new SortedSet<GraphNode>();
-            //Dictionary<GraphNode, GraphNode> previousNodes = new Dictionary<GraphNode, GraphNode>();
+            SortedSet<GraphNode> priorityQueue = new SortedSet<GraphNode>();
+            Dictionary<GraphNode, GraphNode> previousNodes = new Dictionary<GraphNode, GraphNode>();
 
-            //startNode.Distance = 0;
-            //priorityQueue.Add(startNode);
+            startNode.Distance = 0;
+            priorityQueue.Add(startNode);
 
-            //while (priorityQueue.Any())
+            while (priorityQueue.Any())
+            {
+                GraphNode currentNode = priorityQueue.First();
+                priorityQueue.Remove(currentNode);
+
+                if (currentNode == null)
+                    break;
+
+                if (currentNode.Edges != null)
+                {
+                    foreach (GraphEdge edge in currentNode.Edges)
+                    {
+                        int distanceNew = currentNode.Distance + edge.Weight;
+                        GraphNode neighborNode = edge.To;
+
+                        if (distanceNew < neighborNode.Distance)
+                        {
+                            priorityQueue.Remove(neighborNode);
+                            neighborNode.Distance = distanceNew;
+                            previousNodes[neighborNode] = currentNode;
+                            priorityQueue.Add(neighborNode);
+                        }
+                    }
+                }
+            }
+
+            //List<GraphEdge> path = new List<GraphEdge>();
+            //GraphNode addNode = endNode;
+
+            //while (addNode != null && addNode.Name != startNode.Name) //pts7 remove .Name
             //{
-            //    GraphNode currentNode = priorityQueue.First(); 
-            //    priorityQueue.Remove(currentNode);
-
-            //    if (currentNode == null)
-            //        break;
-
-            //    if (currentNode.Edges != null)
-            //    {
-            //        foreach (GraphEdge edge in currentNode.Edges)
-            //        {
-            //            int distanceNew = currentNode.Distance = edge.Weight;
-            //            GraphNode neighborNode = edge.To;
-
-            //            if (distanceNew < neighborNode.Distance)
-            //            {
-            //                priorityQueue.Remove(neighborNode);
-            //                neighborNode.Distance = distanceNew;
-            //                previousNodes[neighborNode] = currentNode;
-            //                priorityQueue.Add(neighborNode);
-            //            }
-            //        }
-            //    }
+            //    var edge = addNode.Edges?.OrderBy(e => e.To.Distance).FirstOrDefault();
+            //    path.Add(edge);
+            //    addNode = edge?.To;
             //}
-
-            ////List<GraphNode> path = new List<GraphNode>();
-            ////GraphNode addNode = endNode;
-
-            ////while (addNode != null && addNode.Name != startNode.Name) //pts7 remove .Name
-            ////{
-            ////    path.Add(addNode);
-            ////    addNode = addNode.Edges?.OrderBy(e => e.To.Distance).FirstOrDefault()?.To;
-            ////}
-
-            ////List<GraphNode> path = new List<GraphNode>();
-            ////for (GraphNode atNode = endNode; atNode != null; atNode = previousNodes.ContainsKey(atNode) ? previousNodes[atNode] : null)
-            ////{
-            ////    path.Insert(0, atNode);
-            ////}
+            //path.Reverse();
 
             List<GraphEdge> path = new List<GraphEdge>();
-            path.AddRange(this.mainWindowViewModel.Store.DirectionsGraph.Edges.Take(15));
+            GraphNode addNode = endNode;
+
+            while (addNode != null && addNode != startNode)
+            {
+                var previousNode = previousNodes[addNode];
+                var edge = previousNode?.Edges.FirstOrDefault(e => e.To == addNode);
+
+                if (edge == null)
+                    return new List<GraphEdge>(); // No path found
+
+                path.Insert(0, edge); // Add the edge to the path
+                addNode = previousNode;
+            }
 
             return path;
         }
@@ -175,17 +183,25 @@ namespace ShopAssist.ViewModels
         {
             IEnumerable<Line> lines = Utility.FindVisualChildren<Line>(directionsPage.MainCanvas);
 
+            //Reset lines
+            foreach (var line in lines)
+            {
+                line.StrokeThickness = 1;
+                line.Stroke = Brushes.Black;
+            }
+
+            int offset = LineOffsetConverter.OFFSET, epsilon = 3;
             foreach (GraphEdge edge in path)
             {
                 Line lineMatched = lines.Where(l =>
-                    edge.CenterX >= ((l.X1 + l.X2) / 2) - 1 - 25 &&
-                    edge.CenterX <= ((l.X1 + l.X2) / 2) + 1 - 25 &&
-                    edge.CenterY >= ((l.Y1 + l.Y2) / 2) - 1 - 25 &&
-                    edge.CenterY <= ((l.Y1 + l.Y2) / 2) + 1 - 25).FirstOrDefault();
+                    edge.CenterX >= ((l.X1 - offset) + (l.X2 - offset)) / 2 - epsilon &&
+                    edge.CenterX <= ((l.X1 - offset) + (l.X2 - offset)) / 2 + epsilon &&
+                    edge.CenterY >= ((l.Y1 - offset) + (l.Y2 - offset)) / 2 - epsilon &&
+                    edge.CenterY <= ((l.Y1 - offset) + (l.Y2 - offset)) / 2 + epsilon).FirstOrDefault();
 
                 if (lineMatched != null)
                 {
-                    lineMatched.StrokeThickness = 3;
+                    lineMatched.StrokeThickness = 4;
                     lineMatched.Stroke = Brushes.Green;
                 }
             }
