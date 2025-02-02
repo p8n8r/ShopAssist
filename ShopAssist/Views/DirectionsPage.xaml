@@ -18,6 +18,7 @@
                               Y1="{Binding From.Y, Converter={StaticResource LineOffsetConverter}}"
                               X2="{Binding To.X, Converter={StaticResource LineOffsetConverter}}"
                               Y2="{Binding To.Y, Converter={StaticResource LineOffsetConverter}}" 
+                              Tag="{Binding}" 
                               Stroke="Black" StrokeThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

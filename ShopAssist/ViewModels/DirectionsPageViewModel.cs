@@ -103,12 +103,10 @@ namespace ShopAssist.ViewModels
             {
                 List<GraphEdge> pathEntranceToNode = FindShortestPath(entranceNode, selectedNode);
                 List<GraphEdge> pathNodeToExit = FindShortestPath(selectedNode, exitNode);
-
-                List<GraphEdge> pathFull = new List<GraphEdge>();
-                pathFull.AddRange(pathEntranceToNode);
-                pathFull.AddRange(pathNodeToExit);
-
-                HighlightPath(pathFull);
+                
+                ResetHighlightPath();
+                HighlightPathToTarget(pathEntranceToNode);
+                HighlightPathFromTarget(pathNodeToExit);
             }
         }
 
@@ -150,59 +148,74 @@ namespace ShopAssist.ViewModels
                 }
             }
 
-            //List<GraphEdge> path = new List<GraphEdge>();
-            //GraphNode addNode = endNode;
-
-            //while (addNode != null && addNode.Name != startNode.Name) //pts7 remove .Name
-            //{
-            //    var edge = addNode.Edges?.OrderBy(e => e.To.Distance).FirstOrDefault();
-            //    path.Add(edge);
-            //    addNode = edge?.To;
-            //}
-            //path.Reverse();
-
             List<GraphEdge> path = new List<GraphEdge>();
             GraphNode addNode = endNode;
 
-            while (addNode != null && addNode != startNode)
+            while (addNode != null && addNode.Name != startNode.Name) //pts7 remove .Name
             {
-                var previousNode = previousNodes[addNode];
-                var edge = previousNode?.Edges.FirstOrDefault(e => e.To == addNode);
-
-                if (edge == null)
-                    return new List<GraphEdge>(); // No path found
-
-                path.Insert(0, edge); // Add the edge to the path
-                addNode = previousNode;
+                var edge = addNode.Edges?.OrderBy(e => e.To.Distance).FirstOrDefault();
+                path.Add(edge);
+                addNode = edge?.To;
             }
+            path.Reverse();
+
+            //List<GraphEdge> path = new List<GraphEdge>();
+            //GraphNode addNode = endNode;
+
+            //while (addNode != null && addNode != startNode)
+            //{
+            //    var previousNode = previousNodes[addNode];
+            //    var edge = previousNode?.Edges.FirstOrDefault(e => e.To == addNode);
+
+            //    if (edge == null)
+            //        return new List<GraphEdge>(); // No path found
+
+            //    path.Insert(0, edge); // Add the edge to the path
+            //    addNode = previousNode;
+            //}
 
             return path;
         }
 
-        private void HighlightPath(IEnumerable<GraphEdge> path)
+        private void ResetHighlightPath()
         {
             IEnumerable<Line> lines = Utility.FindVisualChildren<Line>(directionsPage.MainCanvas);
 
-            //Reset lines
             foreach (var line in lines)
             {
                 line.StrokeThickness = 1;
                 line.Stroke = Brushes.Black;
             }
+        }
 
-            int offset = LineOffsetConverter.OFFSET, epsilon = 3;
+        private void HighlightPathToTarget(IEnumerable<GraphEdge> path)
+        {
+            IEnumerable<Line> lines = Utility.FindVisualChildren<Line>(directionsPage.MainCanvas);
+
             foreach (GraphEdge edge in path)
             {
-                Line lineMatched = lines.Where(l =>
-                    edge.CenterX >= ((l.X1 - offset) + (l.X2 - offset)) / 2 - epsilon &&
-                    edge.CenterX <= ((l.X1 - offset) + (l.X2 - offset)) / 2 + epsilon &&
-                    edge.CenterY >= ((l.Y1 - offset) + (l.Y2 - offset)) / 2 - epsilon &&
-                    edge.CenterY <= ((l.Y1 - offset) + (l.Y2 - offset)) / 2 + epsilon).FirstOrDefault();
+                Line lineMatched = lines.Where(l => l.Tag == edge).FirstOrDefault();
 
                 if (lineMatched != null)
                 {
                     lineMatched.StrokeThickness = 4;
-                    lineMatched.Stroke = Brushes.Green;
+                    lineMatched.Stroke = Brushes.DarkBlue;
+                }
+            }
+        }
+
+        private void HighlightPathFromTarget(IEnumerable<GraphEdge> path)
+        {
+            IEnumerable<Line> lines = Utility.FindVisualChildren<Line>(directionsPage.MainCanvas);
+
+            foreach (GraphEdge edge in path)
+            {
+                Line lineMatched = lines.Where(l => l.Tag == edge).FirstOrDefault();
+
+                if (lineMatched != null)
+                {
+                    lineMatched.StrokeThickness = 4;
+                    lineMatched.Stroke = Brushes.DarkRed;
                 }
             }
         }
