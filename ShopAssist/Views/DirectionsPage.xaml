@@ -33,7 +33,12 @@
                     <DataTemplate>
                         <Grid>
                             <Ellipse Width="50" Height="50" Fill="LightGreen"/>
-                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock.InputBindings>
+                                    <MouseBinding MouseAction="LeftClick" CommandParameter="{Binding}" 
+                                                  Command="{Binding DataContext.nodeClickCmd, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
+                                </TextBlock.InputBindings>
+                            </TextBlock>
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

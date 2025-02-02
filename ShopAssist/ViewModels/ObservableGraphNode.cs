@@ -11,7 +11,10 @@ namespace ShopAssist.ViewModels
 {
     public class ObservableGraphNode : GraphNode, INotifyPropertyChanged
     {
-        public ObservableGraphNode(string name, int x, int y) : base(name, x, y) { }
+        public ObservableGraphNode(string name, int x, int y, List<GraphEdge> edges) : base(name, x, y)
+        { 
+            this.Edges = edges;
+        }
 
         public new int X
         {
@@ -45,7 +48,7 @@ namespace ShopAssist.ViewModels
 
         public static ObservableGraphNode NodeToObservableNode(GraphNode node)
         {
-            return new ObservableGraphNode(node.Name, node.X, node.Y);
+            return new ObservableGraphNode(node.Name, node.X, node.Y, node.Edges);
         }
     }
 }

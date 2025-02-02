@@ -35,6 +35,7 @@ namespace ShopAssist.ViewModels
         }
 
         public RelayCommand reloadCmd => new RelayCommand(execute => RestartDirections());
+        public RelayCommand nodeClickCmd => new RelayCommand(node => ShowShortestPath(node));
 
         public DirectionsPageViewModel(MainWindowViewModel mainWindowViewModel)
         {
@@ -44,38 +45,48 @@ namespace ShopAssist.ViewModels
         private void RestartDirections()
         {
             Graph directionsGraph = this.mainWindowViewModel.Store.DirectionsGraph;
+
             this.Nodes = new ObservableCollection<ObservableGraphNode>(
                 directionsGraph.Nodes.ConvertAll(ObservableGraphNode.NodeToObservableNode));
             this.Edges = new ObservableCollection<ObservableGraphEdge>(
                 directionsGraph.Edges.ConvertAll(ObservableGraphEdge.EdgeToObservableEdge));
 
             this.directionsPage = this.mainWindowViewModel.GetCurrentPage() as DirectionsPage;
-            ShowShortestPath();
         }
 
-        private void ShowShortestPath()
+        private void ShowShortestPath(object node)
         {
-            var entranceNode = this.Nodes.FirstOrDefault(n => n.Name == "Entrance");
-            var exitNode = this.Nodes.FirstOrDefault(n => n.Name == "Exit");
+            ObservableGraphNode selectedNode = node as ObservableGraphNode;
+            var entranceNode = this.Nodes.FirstOrDefault(n => n.Name == ENTRANCE);
+            var exitNode = this.Nodes.FirstOrDefault(n => n.Name == EXIT);
 
-            if (entranceNode != null && exitNode != null)
+            if (selectedNode != null && entranceNode != null && exitNode != null)
             {
-                var path = FindShortestPath(entranceNode, exitNode);
-                HighlightPath(path);
+                List<GraphNode> pathEntranceToNode = FindShortestPath(entranceNode, selectedNode);
+                List<GraphNode> pathNodeToExit = FindShortestPath(selectedNode, exitNode);
+
+                List<GraphNode> pathFull = new List<GraphNode>();
+                pathFull.AddRange(pathEntranceToNode);
+                pathFull.AddRange(pathNodeToExit);
+
+                HighlightPath(pathFull);
             }
         }
 
         public List<GraphNode> FindShortestPath(GraphNode startNode, GraphNode endNode)
         {
-            SortedSet<GraphNode> priorityQueue = new SortedSet<GraphNode>(
-                Comparer<GraphNode>.Create((n1, n2) => n1.Distance.CompareTo(n2.Distance)));
+            Graph directionsGraph = this.mainWindowViewModel.Store.DirectionsGraph;
+            foreach (GraphNode node in directionsGraph.Nodes)
+                node.Distance = int.MaxValue;
+
+            SortedSet<GraphNode> priorityQueue = new SortedSet<GraphNode>();
 
             startNode.Distance = 0;
             priorityQueue.Add(startNode);
 
             while (priorityQueue.Any())
             {
-                GraphNode currentNode = priorityQueue.Min(); //First()? ??? //pts7
+                GraphNode currentNode = priorityQueue.First(); //First()? ??? //pts7
                 priorityQueue.Remove(currentNode);
 
                 if (currentNode == null)
@@ -102,7 +113,7 @@ namespace ShopAssist.ViewModels
             List<GraphNode> path = new List<GraphNode>();
             GraphNode addNode = endNode;
 
-            while (addNode != null)
+            while (addNode != null && addNode.Name != startNode.Name) //pts7 remove .Name
             {
                 path.Add(addNode);
                 addNode = addNode.Edges?.OrderBy(e => e.To.Distance).FirstOrDefault()?.To;

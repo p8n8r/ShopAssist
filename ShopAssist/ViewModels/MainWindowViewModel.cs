@@ -138,7 +138,7 @@ namespace ShopAssist.ViewModels
             var dairy = new GraphNode("Dairy", 125, 75);
             var bakery = new GraphNode("Bakery", 125, 175);
             var fruits = new GraphNode("Fruits", 125, 275);
-            var vegs = new GraphNode("Vegies", 225, 50);
+            var vegs = new GraphNode("Veggies", 225, 50);
             var meats = new GraphNode("Meat", 225, 155);
             var drinks = new GraphNode("Drinks", 225, 255);
             var snacks = new GraphNode("Snacks", 325, 25);
@@ -169,40 +169,58 @@ namespace ShopAssist.ViewModels
             this.Store.DirectionsGraph.Nodes.Add(crackers);
             this.Store.DirectionsGraph.Nodes.Add(cereal);
 
-            List<GraphEdge> egdes = new List<GraphEdge>()
+            entrance.Edges = new List<GraphEdge>() 
             {
                 new GraphEdge(entrance, bakery, 0),
                 new GraphEdge(entrance, exit, 0),
-                new GraphEdge(entrance, dairy, 0),
+                new GraphEdge(entrance, dairy, 0)
+            };
 
+            exit.Edges = new List<GraphEdge>() 
+            {
                 new GraphEdge(exit, entrance, 0),
                 new GraphEdge(exit, dairy, 0),
-                new GraphEdge(exit, bakery, 0),
+                new GraphEdge(exit, bakery, 0) 
+            };
 
+            dairy.Edges = new List<GraphEdge>()
+            {
                 new GraphEdge(dairy, entrance, 0),
                 new GraphEdge(dairy, exit, 0),
                 new GraphEdge(dairy, bakery, 0),
                 new GraphEdge(dairy, vegs, 0),
-                new GraphEdge(dairy, meats, 0),
+                new GraphEdge(dairy, meats, 0)
+            };
 
+            bakery.Edges = new List<GraphEdge>()
+            {
                 new GraphEdge(bakery, entrance, 0),
                 new GraphEdge(bakery, exit, 0),
                 new GraphEdge(bakery, dairy, 0),
                 new GraphEdge(bakery, fruits, 0),
                 new GraphEdge(bakery, meats, 0),
-                new GraphEdge(bakery, drinks, 0),
+                new GraphEdge(bakery, drinks, 0)
+            };
 
+            fruits.Edges = new List<GraphEdge>()
+            {
                 new GraphEdge(fruits, exit, 0),
                 new GraphEdge(fruits, bakery, 0),
                 new GraphEdge(fruits, meats, 0),
-                new GraphEdge(fruits, drinks, 0),
+                new GraphEdge(fruits, drinks, 0)
+            };
 
+            vegs.Edges = new List<GraphEdge>()
+            {
                 new GraphEdge(vegs, dairy, 0),
                 new GraphEdge(vegs, bakery, 0),
                 new GraphEdge(vegs, meats, 0),
                 new GraphEdge(vegs, snacks, 0),
-                new GraphEdge(vegs, pastas, 0),
+                new GraphEdge(vegs, pastas, 0)
+            };
 
+            meats.Edges = new List<GraphEdge>()
+            {
                 new GraphEdge(meats, dairy, 0),
                 new GraphEdge(meats, bakery, 0),
                 new GraphEdge(meats, fruits, 0),
@@ -210,20 +228,29 @@ namespace ShopAssist.ViewModels
                 new GraphEdge(meats, drinks, 0),
                 new GraphEdge(meats, snacks, 0),
                 new GraphEdge(meats, pastas, 0),
-                new GraphEdge(meats, desserts, 0),
+                new GraphEdge(meats, desserts, 0)
+            };
 
+            drinks.Edges = new List<GraphEdge>()
+            {
                 new GraphEdge(drinks, bakery, 0),
                 new GraphEdge(drinks, fruits, 0),
                 new GraphEdge(drinks, meats, 0),
                 new GraphEdge(drinks, drinks, 0),
                 new GraphEdge(drinks, pastas, 0),
-                new GraphEdge(drinks, desserts, 0),
+                new GraphEdge(drinks, desserts, 0)
+            };
 
+            snacks.Edges = new List<GraphEdge>()
+            {
                 new GraphEdge(snacks, vegs, 0),
                 new GraphEdge(snacks, meats, 0),
                 new GraphEdge(snacks, pastas, 0),
-                new GraphEdge(snacks, pizza, 0),
+                new GraphEdge(snacks, pizza, 0)
+            };
 
+            pastas.Edges = new List<GraphEdge>()
+            {
                 new GraphEdge(pastas, vegs, 0),
                 new GraphEdge(pastas, meats, 0),
                 new GraphEdge(pastas, drinks, 0),
@@ -231,53 +258,75 @@ namespace ShopAssist.ViewModels
                 new GraphEdge(pastas, desserts, 0),
                 new GraphEdge(pastas, pizza, 0),
                 new GraphEdge(pastas, candy, 0),
-                new GraphEdge(pastas, seafood, 0),
+                new GraphEdge(pastas, seafood, 0)
+            };
 
+            desserts.Edges = new List<GraphEdge>()
+            {
                 new GraphEdge(desserts, meats, 0),
                 new GraphEdge(desserts, drinks, 0),
                 new GraphEdge(desserts, snacks, 0),
                 new GraphEdge(desserts, pastas, 0),
                 new GraphEdge(desserts, candy, 0),
-                new GraphEdge(desserts, seafood, 0),
+                new GraphEdge(desserts, seafood, 0)
+            };
 
+            pizza.Edges = new List<GraphEdge>()
+            {
                 new GraphEdge(pizza, snacks, 0),
                 new GraphEdge(pizza, pastas, 0),
                 new GraphEdge(pizza, candy, 0),
                 new GraphEdge(pizza, nuts, 0),
-                new GraphEdge(pizza, crackers, 0),
+                new GraphEdge(pizza, crackers, 0)
+            };
 
+            candy.Edges = new List<GraphEdge>()
+            {
                 new GraphEdge(candy, snacks, 0),
                 new GraphEdge(candy, pastas, 0),
                 new GraphEdge(candy, desserts, 0),
                 new GraphEdge(candy, pizza, 0),
                 new GraphEdge(candy, seafood, 0),
                 new GraphEdge(candy, nuts, 0),
-                new GraphEdge(candy, crackers, 0),
+                new GraphEdge(candy, crackers, 0)
+            };
 
+            seafood.Edges = new List<GraphEdge>()
+            {
                 new GraphEdge(seafood, pastas, 0),
                 new GraphEdge(seafood, desserts, 0),
                 new GraphEdge(seafood, candy, 0),
                 new GraphEdge(seafood, crackers, 0),
-                new GraphEdge(seafood, cereal, 0),
+                new GraphEdge(seafood, cereal, 0)
+            };
 
+            nuts.Edges = new List<GraphEdge>()
+            {
                 new GraphEdge(nuts, pizza, 0),
                 new GraphEdge(nuts, candy, 0),
-                new GraphEdge(nuts, crackers, 0),
+                new GraphEdge(nuts, crackers, 0)
+            };
 
+            crackers.Edges = new List<GraphEdge>()
+            {
                 new GraphEdge(crackers, pizza, 0),
                 new GraphEdge(crackers, candy, 0),
                 new GraphEdge(crackers, seafood, 0),
                 new GraphEdge(crackers, nuts, 0),
-                new GraphEdge(crackers, cereal, 0),
-
-                new GraphEdge(cereal, candy, 0),
-                new GraphEdge(cereal, seafood, 0),
-                new GraphEdge(cereal, crackers, 0),
+                new GraphEdge(crackers, cereal, 0)
             };
 
-            var edge6 = new GraphEdge(fruits, dairy, 0);
+            cereal.Edges = new List<GraphEdge>()
+            {
+                new GraphEdge(cereal, candy, 0),
+                new GraphEdge(cereal, seafood, 0),
+                new GraphEdge(cereal, crackers, 0)
+            };
 
-            this.Store.DirectionsGraph.Edges.AddRange(egdes);
+            foreach (GraphNode node in this.Store.DirectionsGraph.Nodes)
+                this.Store.DirectionsGraph.Edges.AddRange(node.Edges);
+
+            //this.Store.DirectionsGraph.Edges.AddRange(edges);
 
             //...
         }
@@ -299,6 +348,12 @@ namespace ShopAssist.ViewModels
                 //The parents have to be left out 
                 //of XML serialization.
                 this.Store.Categories.RestoreParents();
+
+                //Let's retore the node's edges.
+                //The edges had to be left out of XML
+                //serialization dure to circular references.
+                foreach (GraphEdge edge in this.Store.DirectionsGraph.Edges)
+                    edge.From.Edges.Add(new GraphEdge(edge.From, edge.To, 0));
             }
             else
             {
