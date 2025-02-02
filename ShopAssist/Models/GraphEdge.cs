@@ -30,6 +30,5 @@ namespace ShopAssist.Models
         {
             return $"{this.From.Name} -> {this.To.Name}";
         }
-
     }
 }

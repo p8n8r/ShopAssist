@@ -333,12 +333,29 @@ namespace ShopAssist.ViewModels
 
         private void RestoreEdges()
         {
-            foreach (GraphNode node in this.Store.DirectionsGraph.Nodes)
+            // Restore edges for each node
+            foreach (var edge in this.Store.DirectionsGraph.Edges)
             {
-                RestoreFromEdges(node);
-                RestoreToEdges(node);
+                var fromNode = this.Store.DirectionsGraph.Nodes.Find(n => n.Name == edge.From.Name);
+                var toNode = this.Store.DirectionsGraph.Nodes.Find(n => n.Name == edge.To.Name);
+
+                if (fromNode != null && toNode != null)
+                {
+                    edge.From = fromNode;
+                    edge.To = toNode;
+                    fromNode.Edges.Add(edge);
+                }
             }
         }
+
+        //private void RestoreEdges()
+        //{
+        //    foreach (GraphNode node in this.Store.DirectionsGraph.Nodes)
+        //    {
+        //        RestoreFromEdges(node);
+        //        RestoreToEdges(node);
+        //    }
+        //}
 
         private void RestoreFromEdges(GraphNode node)
         {
@@ -356,7 +373,7 @@ namespace ShopAssist.ViewModels
             if (node.Edges.Select(e => e.From.Name).ToList().Contains(node.Name))
                 return;
 
-            node.Edges.AddRange(this.Store.DirectionsGraph.Edges.Where(e => e.From.Name == node.Name));
+            node.Edges.AddRange(this.Store.DirectionsGraph.Edges.Where(e => e.To.Name == node.Name));
 
             foreach (var edge in node.Edges)
                 RestoreToEdges(edge.To);
