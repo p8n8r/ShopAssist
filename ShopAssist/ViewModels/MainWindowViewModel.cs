@@ -348,37 +348,6 @@ namespace ShopAssist.ViewModels
             }
         }
 
-        //private void RestoreEdges()
-        //{
-        //    foreach (GraphNode node in this.Store.DirectionsGraph.Nodes)
-        //    {
-        //        RestoreFromEdges(node);
-        //        RestoreToEdges(node);
-        //    }
-        //}
-
-        private void RestoreFromEdges(GraphNode node)
-        {
-            if (node.Edges.Select(e => e.To.Name).ToList().Contains(node.Name))
-                return;
-
-            node.Edges.AddRange(this.Store.DirectionsGraph.Edges.Where(e => e.From.Name == node.Name));
-
-            foreach (var edge in node.Edges)
-                RestoreToEdges(edge.From);
-        }
-
-        private void RestoreToEdges(GraphNode node)
-        {
-            if (node.Edges.Select(e => e.From.Name).ToList().Contains(node.Name))
-                return;
-
-            node.Edges.AddRange(this.Store.DirectionsGraph.Edges.Where(e => e.To.Name == node.Name));
-
-            foreach (var edge in node.Edges)
-                RestoreToEdges(edge.To);
-        }
-
         private void ImportStore(string filePath)
         {
             if (File.Exists(filePath))

@@ -23,7 +23,7 @@ namespace ShopAssist.ViewModels
         private Random random;
         private MainWindowViewModel mainWindowViewModel;
         private DirectionsPage directionsPage;
-        //private Graph directionsGraph; 
+        private Graph directionsGraph; 
         private ObservableCollection<GraphNode> nodes;
         private ObservableCollection<GraphEdge> edges;
 
@@ -46,15 +46,17 @@ namespace ShopAssist.ViewModels
         {
             this.mainWindowViewModel = mainWindowViewModel;
             this.random = new Random();
+            this.directionsGraph = this.mainWindowViewModel.Store.DirectionsGraph;
+
             RandomizeGraphWeights();
         }
 
         private void RestartDirections()
         {
-            Graph directionsGraph = this.mainWindowViewModel.Store.DirectionsGraph;
+            this.directionsGraph = this.mainWindowViewModel.Store.DirectionsGraph;
 
-            this.Nodes = new ObservableCollection<GraphNode>(directionsGraph.Nodes);
-            this.Edges = new ObservableCollection<GraphEdge>(directionsGraph.Edges);
+            this.Nodes = new ObservableCollection<GraphNode>(this.directionsGraph.Nodes);
+            this.Edges = new ObservableCollection<GraphEdge>(this.directionsGraph.Edges);
 
             this.directionsPage = this.mainWindowViewModel.GetCurrentPage() as DirectionsPage;
 
@@ -63,12 +65,11 @@ namespace ShopAssist.ViewModels
 
         private void RandomizeGraphWeights()
         {
-            Graph directionsGraph = this.mainWindowViewModel.Store.DirectionsGraph;
             List<int> idxEdgesChecked = new List<int>();
 
-            foreach (GraphEdge edge in directionsGraph.Edges)
+            foreach (GraphEdge edge in this.directionsGraph.Edges)
             {
-                int idxEdge = directionsGraph.Edges.IndexOf(edge);
+                int idxEdge = this.directionsGraph.Edges.IndexOf(edge);
 
                 if (!idxEdgesChecked.Contains(idxEdge))
                 {
@@ -78,7 +79,7 @@ namespace ShopAssist.ViewModels
 
                     idxEdgesChecked.Add(idxEdge);
 
-                    GraphEdge edgeOther = directionsGraph.Edges.Where(
+                    GraphEdge edgeOther = this.directionsGraph.Edges.Where(
                         e => e.From == edge.To && e.To == edge.From).FirstOrDefault();
 
                     if (edgeOther != null)
@@ -87,7 +88,7 @@ namespace ShopAssist.ViewModels
                         edgeOther.CenterX = edge.CenterX;
                         edgeOther.CenterY = edge.CenterY;
 
-                        int idxEdgeOther = directionsGraph.Edges.IndexOf(edge);
+                        int idxEdgeOther = this.directionsGraph.Edges.IndexOf(edge);
                         idxEdgesChecked.Add(idxEdgeOther);
                     }
                 }
@@ -106,34 +107,14 @@ namespace ShopAssist.ViewModels
                 List<GraphEdge> pathNodeToExit = FindShortestPath(selectedNode, exitNode);
                 
                 ResetHighlightPath();
-                HighlightPathToTarget(pathEntranceToNode);
                 HighlightPathFromTarget(pathNodeToExit);
+                HighlightPathToTarget(pathEntranceToNode);
             }
         }
 
         private void ResetEdgeDistances()
         {
             Graph graph = this.mainWindowViewModel.Store.DirectionsGraph;
-
-            //foreach (var node in graph.Nodes)
-            //{
-            //    var fromNode = graph.Nodes.Find(n => n.Name == node.Name);
-
-            //    if (node != null)
-            //        node.Distance = int.MaxValue;
-            //}
-
-            //foreach (var edge in graph.Edges)
-            //{
-            //    var fromNode = graph.Nodes.Find(n => n.Name == edge.From.Name);
-            //    var toNode = graph.Nodes.Find(n => n.Name == edge.To.Name);
-
-            //    if (fromNode != null && toNode != null)
-            //    {
-            //        edge.From.Distance = int.MaxValue;
-            //        edge.To.Distance = int.MaxValue;
-            //    }
-            //}
 
             foreach (var node in graph.Nodes)
             {
@@ -149,9 +130,6 @@ namespace ShopAssist.ViewModels
 
         public List<GraphEdge> FindShortestPath(GraphNode startNode, GraphNode endNode)
         {
-            Graph directionsGraph = this.mainWindowViewModel.Store.DirectionsGraph;
-            //foreach (GraphEdge edge in directionsGraph.Edges)
-            //    edge.From.Distance = int.MaxValue;
             ResetEdgeDistances();
 
             SortedSet<GraphNode> priorityQueue = new SortedSet<GraphNode>();
@@ -164,9 +142,6 @@ namespace ShopAssist.ViewModels
             {
                 GraphNode currentNode = priorityQueue.First();
                 priorityQueue.Remove(currentNode);
-
-                //if (currentNode == null)
-                //    break;
 
                 if (currentNode.Edges != null)
                 {
@@ -186,49 +161,18 @@ namespace ShopAssist.ViewModels
                 }
             }
 
-            //List<GraphEdge> path = new List<GraphEdge>();
-            //GraphNode addNode = endNode;
-
-            //while (addNode != null && addNode.Name != startNode.Name) //pts7 remove .Name
-            //{
-            //    var edge = addNode.Edges?.OrderBy(e => e.To.Distance).FirstOrDefault();
-            //    path.Add(edge);
-            //    addNode = edge?.To;
-            //}
-            //path.Reverse();
-
-            //List<GraphEdge> path = new List<GraphEdge>();
-            //GraphNode addNode = endNode;
-
-            //while (addNode != null && addNode != startNode)
-            //{
-            //    //var previousNode = previousNodes[addNode.Name];
-            //    var previousNode = previousNodes.ContainsKey(addNode.Name) ? previousNodes[addNode.Name] : null;
-            //    var edge = previousNode?.Edges.FirstOrDefault(e => e.To.Name == addNode.Name);
-
-            //    if (edge == null)
-            //        return new List<GraphEdge>(); // No path found
-
-            //    path.Insert(0, edge); //Add the edge to the path
-            //    addNode = previousNode;
-            //}
-
             List<GraphEdge> path = new List<GraphEdge>();
             GraphNode addNode = endNode;
 
             while (addNode != null && addNode != startNode)
             {
                 if (!previousNodes.TryGetValue(addNode.Name, out var previousNode))
-                {
                     return new List<GraphEdge>(); // No path found
-                }
 
                 var edge = previousNode?.Edges.FirstOrDefault(e => e.To == addNode);
 
                 if (edge == null)
-                {
                     return new List<GraphEdge>(); // No path found
-                }
 
                 path.Insert(0, edge); // Add the edge to the path
                 addNode = previousNode;
