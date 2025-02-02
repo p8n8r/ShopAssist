@@ -38,7 +38,7 @@ namespace ShopAssist.ViewModels
             this.displayDialog = displayDialog;
 
             ImportStore(STORE_FILE);
-            //AddJunkData(); // <---- REMOVE THIS 
+            AddJunkData(); // <---- REMOVE THIS 
         }
 
         private void AddJunkData() // <---- REMOVE THIS 
@@ -131,32 +131,153 @@ namespace ShopAssist.ViewModels
 
             this.Store.DirectionsGraph = new Graph();
 
-            //REPLACE WITH XML DATA
-            var entrance = new GraphNode("Entrance", 50, 50);
-            var exit = new GraphNode("Exit", 150, 50);
-            var dairy = new GraphNode("Dairy", 100, 100);
-            var bakery = new GraphNode("Bakery", 200, 200);
-            var produce = new GraphNode("Produce", 300, 100);
+            //REPLACE WITH XML DATA  X: 50 -> 600, Y: 25 -> 300
+            var entrance = new GraphNode("Entrance", 25, 100);
+            var exit = new GraphNode("Exit", 25, 200);
+
+            var dairy = new GraphNode("Dairy", 125, 75);
+            var bakery = new GraphNode("Bakery", 125, 175);
+            var fruits = new GraphNode("Fruits", 125, 275);
+            var vegs = new GraphNode("Vegies", 225, 50);
+            var meats = new GraphNode("Meat", 225, 155);
+            var drinks = new GraphNode("Drinks", 225, 255);
+            var snacks = new GraphNode("Snacks", 325, 25);
+            var pastas = new GraphNode("Pasta", 325, 150);
+            var desserts = new GraphNode("Desserts", 325, 275);
+            var candy = new GraphNode("Candy", 425, 200);
+            var seafood = new GraphNode("Seafood", 425, 300);
+            var pizza = new GraphNode("Pizza", 425, 75);
+            var nuts = new GraphNode("Nuts", 550, 50);
+            var crackers = new GraphNode("Crackers", 550, 150);
+            var cereal = new GraphNode("Cereal", 550, 275);
 
             this.Store.DirectionsGraph.Nodes.Add(entrance);
             this.Store.DirectionsGraph.Nodes.Add(exit);
             this.Store.DirectionsGraph.Nodes.Add(dairy);
             this.Store.DirectionsGraph.Nodes.Add(bakery);
-            this.Store.DirectionsGraph.Nodes.Add(produce);
+            this.Store.DirectionsGraph.Nodes.Add(fruits);
+            this.Store.DirectionsGraph.Nodes.Add(vegs);
+            this.Store.DirectionsGraph.Nodes.Add(meats);
+            this.Store.DirectionsGraph.Nodes.Add(drinks);
+            this.Store.DirectionsGraph.Nodes.Add(snacks);
+            this.Store.DirectionsGraph.Nodes.Add(pastas);
+            this.Store.DirectionsGraph.Nodes.Add(desserts);
+            this.Store.DirectionsGraph.Nodes.Add(candy);
+            this.Store.DirectionsGraph.Nodes.Add(seafood);
+            this.Store.DirectionsGraph.Nodes.Add(pizza);
+            this.Store.DirectionsGraph.Nodes.Add(nuts);
+            this.Store.DirectionsGraph.Nodes.Add(crackers);
+            this.Store.DirectionsGraph.Nodes.Add(cereal);
 
-            var edgeEntrance = new GraphEdge(entrance, bakery, 0);
-            var edge0 = new GraphEdge(entrance, exit, 0);
-            var edge1 = new GraphEdge(dairy, bakery, 1);
-            var edge2 = new GraphEdge(bakery, produce, 2);
-            var edge3 = new GraphEdge(produce, dairy, 3);
-            var edgeExit = new GraphEdge(exit, dairy, 3);
+            List<GraphEdge> egdes = new List<GraphEdge>()
+            {
+                new GraphEdge(entrance, bakery, 0),
+                new GraphEdge(entrance, exit, 0),
+                new GraphEdge(entrance, dairy, 0),
 
-            this.Store.DirectionsGraph.Edges.Add(edgeEntrance);
-            this.Store.DirectionsGraph.Edges.Add(edge0);
-            this.Store.DirectionsGraph.Edges.Add(edge1);
-            this.Store.DirectionsGraph.Edges.Add(edge2);
-            this.Store.DirectionsGraph.Edges.Add(edge3);
-            this.Store.DirectionsGraph.Edges.Add(edgeExit);
+                new GraphEdge(exit, entrance, 0),
+                new GraphEdge(exit, dairy, 0),
+                new GraphEdge(exit, bakery, 0),
+
+                new GraphEdge(dairy, entrance, 0),
+                new GraphEdge(dairy, exit, 0),
+                new GraphEdge(dairy, bakery, 0),
+                new GraphEdge(dairy, vegs, 0),
+                new GraphEdge(dairy, meats, 0),
+
+                new GraphEdge(bakery, entrance, 0),
+                new GraphEdge(bakery, exit, 0),
+                new GraphEdge(bakery, dairy, 0),
+                new GraphEdge(bakery, fruits, 0),
+                new GraphEdge(bakery, meats, 0),
+                new GraphEdge(bakery, drinks, 0),
+
+                new GraphEdge(fruits, exit, 0),
+                new GraphEdge(fruits, bakery, 0),
+                new GraphEdge(fruits, meats, 0),
+                new GraphEdge(fruits, drinks, 0),
+
+                new GraphEdge(vegs, dairy, 0),
+                new GraphEdge(vegs, bakery, 0),
+                new GraphEdge(vegs, meats, 0),
+                new GraphEdge(vegs, snacks, 0),
+                new GraphEdge(vegs, pastas, 0),
+
+                new GraphEdge(meats, dairy, 0),
+                new GraphEdge(meats, bakery, 0),
+                new GraphEdge(meats, fruits, 0),
+                new GraphEdge(meats, vegs, 0),
+                new GraphEdge(meats, drinks, 0),
+                new GraphEdge(meats, snacks, 0),
+                new GraphEdge(meats, pastas, 0),
+                new GraphEdge(meats, desserts, 0),
+
+                new GraphEdge(drinks, bakery, 0),
+                new GraphEdge(drinks, fruits, 0),
+                new GraphEdge(drinks, meats, 0),
+                new GraphEdge(drinks, drinks, 0),
+                new GraphEdge(drinks, pastas, 0),
+                new GraphEdge(drinks, desserts, 0),
+
+                new GraphEdge(snacks, vegs, 0),
+                new GraphEdge(snacks, meats, 0),
+                new GraphEdge(snacks, pastas, 0),
+                new GraphEdge(snacks, pizza, 0),
+
+                new GraphEdge(pastas, vegs, 0),
+                new GraphEdge(pastas, meats, 0),
+                new GraphEdge(pastas, drinks, 0),
+                new GraphEdge(pastas, snacks, 0),
+                new GraphEdge(pastas, desserts, 0),
+                new GraphEdge(pastas, pizza, 0),
+                new GraphEdge(pastas, candy, 0),
+                new GraphEdge(pastas, seafood, 0),
+
+                new GraphEdge(desserts, meats, 0),
+                new GraphEdge(desserts, drinks, 0),
+                new GraphEdge(desserts, snacks, 0),
+                new GraphEdge(desserts, pastas, 0),
+                new GraphEdge(desserts, candy, 0),
+                new GraphEdge(desserts, seafood, 0),
+
+                new GraphEdge(pizza, snacks, 0),
+                new GraphEdge(pizza, pastas, 0),
+                new GraphEdge(pizza, candy, 0),
+                new GraphEdge(pizza, nuts, 0),
+                new GraphEdge(pizza, crackers, 0),
+
+                new GraphEdge(candy, snacks, 0),
+                new GraphEdge(candy, pastas, 0),
+                new GraphEdge(candy, desserts, 0),
+                new GraphEdge(candy, pizza, 0),
+                new GraphEdge(candy, seafood, 0),
+                new GraphEdge(candy, nuts, 0),
+                new GraphEdge(candy, crackers, 0),
+
+                new GraphEdge(seafood, pastas, 0),
+                new GraphEdge(seafood, desserts, 0),
+                new GraphEdge(seafood, candy, 0),
+                new GraphEdge(seafood, crackers, 0),
+                new GraphEdge(seafood, cereal, 0),
+
+                new GraphEdge(nuts, pizza, 0),
+                new GraphEdge(nuts, candy, 0),
+                new GraphEdge(nuts, crackers, 0),
+
+                new GraphEdge(crackers, pizza, 0),
+                new GraphEdge(crackers, candy, 0),
+                new GraphEdge(crackers, seafood, 0),
+                new GraphEdge(crackers, nuts, 0),
+                new GraphEdge(crackers, cereal, 0),
+
+                new GraphEdge(cereal, candy, 0),
+                new GraphEdge(cereal, seafood, 0),
+                new GraphEdge(cereal, crackers, 0),
+            };
+
+            var edge6 = new GraphEdge(fruits, dairy, 0);
+
+            this.Store.DirectionsGraph.Edges.AddRange(egdes);
 
             //...
         }
