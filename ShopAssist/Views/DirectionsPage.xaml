@@ -54,6 +54,27 @@
                     </Style>
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
+            <!--Draw Weights-->
+            <ItemsControl ItemsSource="{Binding Edges}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <TextBlock Text="{Binding Weight}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="Canvas.Left" Value="{Binding CenterX, Converter={StaticResource LineOffsetConverter}}"/>
+                        <Setter Property="Canvas.Top" Value="{Binding CenterY, Converter={StaticResource LineOffsetConverter}}"/>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ItemsControl>
         </Canvas>
     </Grid>
 </Page>

@@ -236,7 +236,6 @@ namespace ShopAssist.ViewModels
                 new GraphEdge(drinks, bakery, 0),
                 new GraphEdge(drinks, fruits, 0),
                 new GraphEdge(drinks, meats, 0),
-                new GraphEdge(drinks, drinks, 0),
                 new GraphEdge(drinks, pastas, 0),
                 new GraphEdge(drinks, desserts, 0)
             };
@@ -265,7 +264,6 @@ namespace ShopAssist.ViewModels
             {
                 new GraphEdge(desserts, meats, 0),
                 new GraphEdge(desserts, drinks, 0),
-                new GraphEdge(desserts, snacks, 0),
                 new GraphEdge(desserts, pastas, 0),
                 new GraphEdge(desserts, candy, 0),
                 new GraphEdge(desserts, seafood, 0)

@@ -16,8 +16,8 @@ namespace ShopAssist.Models
         [XmlIgnore]
         public List<GraphEdge> Edges { get; set; }
         public int Distance { get; set; } = int.MaxValue;
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int X { get; set; } //Used for display
+        public int Y { get; set; } //Used for display
 
         public GraphNode() //Only used for XML serialization
         {

@@ -12,6 +12,8 @@ namespace ShopAssist.Models
         public GraphNode From { get; set; }
         public GraphNode To { get; set; }
         public int Weight { get; set; }
+        public int CenterX { get; set; } //Used for display
+        public int CenterY { get; set; } //Used for display
 
         public GraphEdge() { } //Only used for XML serialization
 
