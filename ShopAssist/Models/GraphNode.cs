@@ -15,6 +15,7 @@ namespace ShopAssist.Models
         public string Name {  get; set; }
         [XmlIgnore]
         public List<GraphEdge> Edges { get; set; }
+        [XmlIgnore]
         public int Distance { get; set; } = int.MaxValue;
         public int X { get; set; } //Used for display
         public int Y { get; set; } //Used for display
@@ -30,6 +31,11 @@ namespace ShopAssist.Models
             this.X = x;
             this.Y = y;
             this.Edges = new List<GraphEdge>();
+        }
+
+        public override string ToString()
+        {
+            return this.Name;
         }
 
         public int Compare(GraphNode x, GraphNode y)

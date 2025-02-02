@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace ShopAssist.Models
 {
@@ -11,6 +12,7 @@ namespace ShopAssist.Models
     {
         public GraphNode From { get; set; }
         public GraphNode To { get; set; }
+        [XmlIgnore]
         public int Weight { get; set; }
         public int CenterX { get; set; } //Used for display
         public int CenterY { get; set; } //Used for display
@@ -23,5 +25,11 @@ namespace ShopAssist.Models
             this.To = to;
             this.Weight = weight;
         }
+
+        public override string ToString()
+        {
+            return $"{this.From.Name} -> {this.To.Name}";
+        }
+
     }
 }

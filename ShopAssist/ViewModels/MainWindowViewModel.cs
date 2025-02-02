@@ -38,7 +38,7 @@ namespace ShopAssist.ViewModels
             this.displayDialog = displayDialog;
 
             ImportStore(STORE_FILE);
-            AddJunkData(); // <---- REMOVE THIS 
+            //AddJunkData(); // <---- REMOVE THIS 
         }
 
         private void AddJunkData() // <---- REMOVE THIS 
@@ -331,6 +331,37 @@ namespace ShopAssist.ViewModels
             //...
         }
 
+        private void RestoreEdges()
+        {
+            foreach (GraphNode node in this.Store.DirectionsGraph.Nodes)
+            {
+                RestoreFromEdges(node);
+                RestoreToEdges(node);
+            }
+        }
+
+        private void RestoreFromEdges(GraphNode node)
+        {
+            if (node.Edges.Select(e => e.To.Name).ToList().Contains(node.Name))
+                return;
+
+            node.Edges.AddRange(this.Store.DirectionsGraph.Edges.Where(e => e.From.Name == node.Name));
+
+            foreach (var edge in node.Edges)
+                RestoreToEdges(edge.From);
+        }
+
+        private void RestoreToEdges(GraphNode node)
+        {
+            if (node.Edges.Select(e => e.From.Name).ToList().Contains(node.Name))
+                return;
+
+            node.Edges.AddRange(this.Store.DirectionsGraph.Edges.Where(e => e.From.Name == node.Name));
+
+            foreach (var edge in node.Edges)
+                RestoreToEdges(edge.To);
+        }
+
         private void ImportStore(string filePath)
         {
             if (File.Exists(filePath))
@@ -352,8 +383,7 @@ namespace ShopAssist.ViewModels
                 //Let's retore the node's edges.
                 //The edges had to be left out of XML
                 //serialization dure to circular references.
-                foreach (GraphEdge edge in this.Store.DirectionsGraph.Edges)
-                    edge.From.Edges.Add(new GraphEdge(edge.From, edge.To, 0));
+                RestoreEdges();
             }
             else
             {

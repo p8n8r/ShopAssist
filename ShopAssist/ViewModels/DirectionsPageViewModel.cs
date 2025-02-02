@@ -117,7 +117,7 @@ namespace ShopAssist.ViewModels
                 node.Edges.First().From.Distance = int.MaxValue;
 
             SortedSet<GraphNode> priorityQueue = new SortedSet<GraphNode>();
-            Dictionary<GraphNode, GraphNode> previousNodes = new Dictionary<GraphNode, GraphNode>();
+            Dictionary<string, GraphNode> previousNodes = new Dictionary<string, GraphNode>();
 
             startNode.Distance = 0;
             priorityQueue.Add(startNode);
@@ -141,38 +141,38 @@ namespace ShopAssist.ViewModels
                         {
                             priorityQueue.Remove(neighborNode);
                             neighborNode.Distance = distanceNew;
-                            previousNodes[neighborNode] = currentNode;
+                            previousNodes[neighborNode.Name] = currentNode;
                             priorityQueue.Add(neighborNode);
                         }
                     }
                 }
             }
 
-            List<GraphEdge> path = new List<GraphEdge>();
-            GraphNode addNode = endNode;
-
-            while (addNode != null && addNode.Name != startNode.Name) //pts7 remove .Name
-            {
-                var edge = addNode.Edges?.OrderBy(e => e.To.Distance).FirstOrDefault();
-                path.Add(edge);
-                addNode = edge?.To;
-            }
-            path.Reverse();
-
             //List<GraphEdge> path = new List<GraphEdge>();
             //GraphNode addNode = endNode;
 
-            //while (addNode != null && addNode != startNode)
+            //while (addNode != null && addNode.Name != startNode.Name) //pts7 remove .Name
             //{
-            //    var previousNode = previousNodes[addNode];
-            //    var edge = previousNode?.Edges.FirstOrDefault(e => e.To == addNode);
-
-            //    if (edge == null)
-            //        return new List<GraphEdge>(); // No path found
-
-            //    path.Insert(0, edge); // Add the edge to the path
-            //    addNode = previousNode;
+            //    var edge = addNode.Edges?.OrderBy(e => e.To.Distance).FirstOrDefault();
+            //    path.Add(edge);
+            //    addNode = edge?.To;
             //}
+            //path.Reverse();
+
+            List<GraphEdge> path = new List<GraphEdge>();
+            GraphNode addNode = endNode;
+
+            while (addNode != null && addNode != startNode)
+            {
+                var previousNode = previousNodes[addNode.Name];
+                var edge = previousNode?.Edges.FirstOrDefault(e => e.To.Name == addNode.Name);
+
+                if (edge == null)
+                    return new List<GraphEdge>(); // No path found
+
+                path.Insert(0, edge); // Add the edge to the path
+                addNode = previousNode;
+            }
 
             return path;
         }
