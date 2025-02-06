@@ -9,6 +9,16 @@
       Title="DirectionsPage" Loaded="Page_Loaded">
 
     <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Click a section (node) of the store to reveal the best route through the crowds. These colored paths may overlap." Padding="5,5,5,1"/>
+            <Label Grid.Row="1" Content="Blue edges: entrance -> section (node)" Padding="5,1,5,1"/>
+            <Label Grid.Row="2" Content="Red edges: section (node) -> exit" Padding="5,1,5,1"/>
+        </Grid>
         <Canvas Name="MainCanvas">
             <!--Draw Edges-->
             <ItemsControl ItemsSource="{Binding Edges}">
