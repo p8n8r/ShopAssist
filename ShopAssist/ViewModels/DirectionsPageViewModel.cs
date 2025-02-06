@@ -114,18 +114,8 @@ namespace ShopAssist.ViewModels
 
         private void ResetEdgeDistances()
         {
-            Graph graph = this.mainWindowViewModel.Store.DirectionsGraph;
-
-            foreach (var node in graph.Nodes)
-            {
+            foreach (var node in this.directionsGraph.Nodes)
                 node.Distance = int.MaxValue;
-            }
-
-            foreach (var edge in graph.Edges)
-            {
-                edge.From.Distance = int.MaxValue;
-                edge.To.Distance = int.MaxValue;
-            }
         }
 
         public List<GraphEdge> FindShortestPath(GraphNode startNode, GraphNode endNode)
@@ -134,6 +124,7 @@ namespace ShopAssist.ViewModels
 
             SortedSet<GraphNode> priorityQueue = new SortedSet<GraphNode>();
             Dictionary<string, GraphNode> previousNodes = new Dictionary<string, GraphNode>();
+            HashSet<GraphNode> visitedNodes = new HashSet<GraphNode>();
 
             startNode.Distance = 0;
             priorityQueue.Add(startNode);
@@ -142,6 +133,7 @@ namespace ShopAssist.ViewModels
             {
                 GraphNode currentNode = priorityQueue.First();
                 priorityQueue.Remove(currentNode);
+                visitedNodes.Add(currentNode);
 
                 if (currentNode.Edges != null)
                 {
@@ -149,6 +141,8 @@ namespace ShopAssist.ViewModels
                     {
                         int distanceNew = currentNode.Distance + edge.Weight;
                         GraphNode neighborNode = edge.To;
+
+                        if (visitedNodes.Contains(neighborNode)) { continue; }
 
                         if (distanceNew < neighborNode.Distance)
                         {
