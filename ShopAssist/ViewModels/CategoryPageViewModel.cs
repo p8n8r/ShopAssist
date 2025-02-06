@@ -15,6 +15,7 @@ namespace ShopAssist.ViewModels
 {
     public class DisplayableCategory : ViewModelBase
     {
+        private bool isExpanded = true;
         private ObservableCollection<DisplayableCategory> subcategories;
         public string Name { get; set; }
         public DisplayableCategory ParentCategory { get; set; }
@@ -22,6 +23,11 @@ namespace ShopAssist.ViewModels
         {
             get { return this.subcategories; }
             set { this.subcategories = value; OnPropertyChanged(); }
+        }
+        public bool IsExpanded
+        {
+            get { return this.isExpanded; }
+            set { this.isExpanded = value; OnPropertyChanged(); }
         }
     }
 

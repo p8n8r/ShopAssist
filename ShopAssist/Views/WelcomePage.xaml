@@ -22,9 +22,9 @@
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" Content="Welcome!" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5,5,5,30"/>
         <TextBlock Grid.Row="1" Grid.Column="0" TextWrapping="WrapWithOverflow" Text="View the shop's inventory." HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5,0,5,0" FontSize="18" TextAlignment="Center" Margin="15,0,15,0" Width="NaN"/>
-        <TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="WrapWithOverflow" Text="View the customer details." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,0,15,0" FontSize="18" TextAlignment="Center"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="WrapWithOverflow" Text="View the customers' details." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,0,15,0" FontSize="18" TextAlignment="Center"/>
         <TextBlock Grid.Row="1" Grid.Column="2" TextWrapping="WrapWithOverflow" Text="View the category hierarchy." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,0,15,0" FontSize="18" TextAlignment="Center"/>
         <TextBlock Grid.Row="1" Grid.Column="3" TextWrapping="WrapWithOverflow" Text="View the checkout lines." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,0,15,0" FontSize="18" TextAlignment="Center"/>
-        <TextBlock Grid.Row="1" Grid.Column="4" TextWrapping="WrapWithOverflow" Text="View navigation of your shopping list." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,0,15,0" FontSize="18" TextAlignment="Center"/>
+        <TextBlock Grid.Row="1" Grid.Column="4" TextWrapping="WrapWithOverflow" Text="View navigation of the busy store." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,0,15,0" FontSize="18" TextAlignment="Center"/>
     </Grid>
 </Page>

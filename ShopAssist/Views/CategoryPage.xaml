@@ -45,6 +45,11 @@
                                                CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=TreeView}}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
+                    </Style>
+                </TreeView.ItemContainerStyle>
             </TreeView>
         </Grid>
     </Grid>
