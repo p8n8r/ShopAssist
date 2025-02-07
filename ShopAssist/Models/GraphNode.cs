@@ -45,7 +45,7 @@ namespace ShopAssist.Models
 
         public int CompareTo(GraphNode other)
         {
-            return this.Distance.CompareTo(other.Distance);
+            return Compare(this, other);
         }
     }
 }
