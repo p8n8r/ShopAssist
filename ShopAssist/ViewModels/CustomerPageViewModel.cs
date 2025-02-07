@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ShopAssist.ViewModels
 {
-    internal class CustomerPageViewModel : ViewModelBase
+    public class CustomerPageViewModel : ViewModelBase
     {
         private ObservableCollection<Customer> customers;
         private MainWindowViewModel mainWindowViewModel;

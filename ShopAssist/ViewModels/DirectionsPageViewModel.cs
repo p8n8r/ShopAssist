@@ -16,7 +16,7 @@ using System.Xml.Linq;
 
 namespace ShopAssist.ViewModels
 {
-    internal class DirectionsPageViewModel : ViewModelBase
+    public class DirectionsPageViewModel : ViewModelBase
     {
         private const string ENTRANCE = "Entrance", EXIT = "Exit";
 

@@ -16,7 +16,7 @@ using System.Xml.Serialization;
 
 namespace ShopAssist.ViewModels
 {
-    internal class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
         private const string STORE_FILE = @".\Datasets\Store.xml";
         public readonly IDisplayDialog displayDialog;

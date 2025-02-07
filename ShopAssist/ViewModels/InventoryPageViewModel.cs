@@ -13,7 +13,7 @@ using System.Windows.Data;
 
 namespace ShopAssist.ViewModels
 {
-    internal class InventoryPageViewModel : ViewModelBase
+    public class InventoryPageViewModel : ViewModelBase
     {
         private ObservableCollection<Item> inventory;
         private MainWindowViewModel mainWindowViewModel;

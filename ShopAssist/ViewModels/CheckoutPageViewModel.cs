@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace ShopAssist.ViewModels
 {
-    internal class CheckoutPageViewModel : ViewModelBase
+    public class CheckoutPageViewModel : ViewModelBase
     {
         private const int MIN_INITIAL_CUSTOMERS = 5, MAX_INITIAL_CUSTOMERS = 10;
         private const int REGISTER1 = 0, REGISTER2 = 1, REGISTER3 = 2;

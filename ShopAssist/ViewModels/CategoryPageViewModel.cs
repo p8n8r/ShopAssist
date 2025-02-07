@@ -31,7 +31,7 @@ namespace ShopAssist.ViewModels
         }
     }
 
-    internal class CategoryPageViewModel : ViewModelBase
+    public class CategoryPageViewModel : ViewModelBase
     {
         private readonly IDisplayDialog displayDialog;
         private ObservableCollection<DisplayableCategory> categories;
@@ -94,14 +94,14 @@ namespace ShopAssist.ViewModels
             }
         }
 
-        public DisplayableCategory FindDisplayableCategory(string name)
+        private DisplayableCategory FindDisplayableCategory(string name)
         {
             DisplayableCategory displayableCategory = null;
             FindDisplayableCategory(this.rootDisplayableCategory, name, ref displayableCategory);
             return displayableCategory;
         }
 
-        public void FindDisplayableCategory(DisplayableCategory displayableCategory, 
+        private void FindDisplayableCategory(DisplayableCategory displayableCategory, 
             string name, ref DisplayableCategory displayableCategoryFound)
         {
             if (displayableCategory.Name == name)
