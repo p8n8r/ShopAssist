@@ -2,9 +2,10 @@
 //using ShopAssist.DisplayDialogs;
 //using ShopAssist.Models;
 //using ShopAssist.ViewModels;
+//using ShopAssist.Views;
 //using System.Collections.ObjectModel;
 
-//namespace ShopAssist.Tests
+//namespace ShopAssist.ViewModels.Tests
 //{
 //    [TestClass]
 //    public class DisplayableCategoryTests
@@ -26,87 +27,88 @@
 //    [TestClass]
 //    public class CategoryPageViewModelTests
 //    {
-//        private Mock<IDisplayDialog> mockDisplayDialog;
-//        private Mock<MainWindowViewModel> mockMainWindowViewModel;
-//        private CategoryPageViewModel viewModel;
+//        private MainWindow mainWindow;
+//        private MainWindowViewModel mainWindowVm;
+//        private CategoryPageViewModel categoryPageVm;
 
 //        [TestInitialize]
 //        public void Initialize()
 //        {
-//            mockDisplayDialog = new Mock<IDisplayDialog>();
-//            mockMainWindowViewModel = new Mock<MainWindowViewModel>();
-//            mockMainWindowViewModel.Setup(m => m.displayDialog).Returns(mockDisplayDialog.Object);
-//            mockMainWindowViewModel.Setup(m => m.Store).Returns(new Store());
-//            viewModel = new CategoryPageViewModel(mockMainWindowViewModel.Object);
+//            IDisplayDialog fakeDisplayDialog = new FakeDisplayDialog();
+//            this.mainWindow = new MainWindow(fakeDisplayDialog);
+//            this.mainWindowVm = this.mainWindow.DataContext as MainWindowViewModel;
+//            this.categoryPageVm = mainWindow.categoryPage.DataContext as CategoryPageViewModel;
+//            this.mainWindowVm.Store = new Store();
 //        }
 
 //        [TestMethod]
 //        public void ReloadCategories_PopulatesDisplayableCategories()
 //        {
 //            // Arrange
-//            var categoryNode = new TreeNode<Category> { Data = new Category { Name = "Electronics" } };
-//            mockMainWindowViewModel.Object.Store.Categories.Root = categoryNode;
+//            var categoryNode = new TreeNode<Category> { Data = new Category { Name = "Food" } };
+//            this.mainWindowVm.Store.Categories.Root = categoryNode;
 
 //            // Act
-//            viewModel.ReloadCategories();
+//            PrivateObject privObj = new PrivateObject(categoryPageVm);
+//            privObj.Invoke("ReloadCategories");
 
 //            // Assert
-//            Assert.AreEqual(1, viewModel.DisplayableCategories.Count);
-//            Assert.AreEqual("Electronics", viewModel.DisplayableCategories[0].Name);
+//            Assert.AreEqual(1, categoryPageVm.DisplayableCategories.Count);
+//            Assert.AreEqual("Food", categoryPageVm.DisplayableCategories[0].Name);
 //        }
 
-//        [TestMethod]
-//        public void Add_AddsSubcategoryToSelectedCategory()
-//        {
-//            // Arrange
-//            var rootCategory = new DisplayableCategory { Name = "All" };
-//            viewModel.DisplayableCategories = new ObservableCollection<DisplayableCategory> { rootCategory };
-//            viewModel.selectedDisplayableCategory = rootCategory;
-//            viewModel.AddText = "New Category";
-//            var categoryNode = new TreeNode<Category> { Data = new Category { Name = "All" } };
-//            mockMainWindowViewModel.Object.Store.Categories.Root = categoryNode;
+//        //[TestMethod]
+//        //public void Add_AddsSubcategoryToSelectedCategory()
+//        //{
+//        //    // Arrange
+//        //    var rootCategory = new DisplayableCategory { Name = "All" };
+//        //    categoryPageVm.DisplayableCategories = new ObservableCollection<DisplayableCategory> { rootCategory };
+//        //    categoryPageVm.SelectedDisplayableCategory = rootCategory;
+//        //    categoryPageVm.AddText = "New Category";
+//        //    var categoryNode = new TreeNode<Category> { Data = new Category { Name = "All" } };
+//        //    mockMainWindowViewModel.Object.Store.Categories.Root = categoryNode;
 
-//            // Act
-//            viewModel.Add();
+//        //    // Act
+//        //    categoryPageVm.Add();
 
-//            // Assert
-//            Assert.AreEqual(1, rootCategory.Subcategories.Count);
-//            Assert.AreEqual("New Category", rootCategory.Subcategories[0].Name);
-//        }
+//        //    // Assert
+//        //    Assert.AreEqual(1, rootCategory.Subcategories.Count);
+//        //    Assert.AreEqual("New Category", rootCategory.Subcategories[0].Name);
+//        //}
 
-//        [TestMethod]
-//        public void Remove_RemovesSelectedCategory()
-//        {
-//            // Arrange
-//            var rootCategory = new DisplayableCategory { Name = "All" };
-//            var subCategory = new DisplayableCategory { Name = "SubCategory", ParentCategory = rootCategory };
-//            rootCategory.Subcategories = new ObservableCollection<DisplayableCategory> { subCategory };
-//            viewModel.DisplayableCategories = new ObservableCollection<DisplayableCategory> { rootCategory };
-//            viewModel.selectedDisplayableCategory = subCategory;
-//            var categoryNode = new TreeNode<Category> { Data = new Category { Name = "All" } };
-//            categoryNode.Children.Add(new TreeNode<Category> { Data = new Category { Name = "SubCategory" } });
-//            mockMainWindowViewModel.Object.Store.Categories.Root = categoryNode;
+//        //[TestMethod]
+//        //public void Remove_RemovesSelectedCategory()
+//        //{
+//        //    // Arrange
+//        //    var rootCategory = new DisplayableCategory { Name = "All" };
+//        //    var subCategory = new DisplayableCategory { Name = "SubCategory", ParentCategory = rootCategory };
+//        //    rootCategory.Subcategories = new ObservableCollection<DisplayableCategory> { subCategory };
+//        //    categoryPageVm.DisplayableCategories = new ObservableCollection<DisplayableCategory> { rootCategory };
+//        //    categoryPageVm.selectedDisplayableCategory = subCategory;
+//        //    var categoryNode = new TreeNode<Category> { Data = new Category { Name = "All" } };
+//        //    categoryNode.Children.Add(new TreeNode<Category> { Data = new Category { Name = "SubCategory" } });
+//        //    mockMainWindowViewModel.Object.Store.Categories.Root = categoryNode;
 
-//            // Act
-//            viewModel.Remove();
+//        //    // Act
+//        //    categoryPageVm.Remove();
 
-//            // Assert
-//            Assert.AreEqual(0, rootCategory.Subcategories.Count);
-//        }
+//        //    // Assert
+//        //    Assert.AreEqual(0, rootCategory.Subcategories.Count);
+//        //}
 
-//        [TestMethod]
-//        public void Remove_CannotRemoveRootCategory()
-//        {
-//            // Arrange
-//            var rootCategory = new DisplayableCategory { Name = "All" };
-//            viewModel.DisplayableCategories = new ObservableCollection<DisplayableCategory> { rootCategory };
-//            viewModel.selectedDisplayableCategory = rootCategory;
+//        //[TestMethod]
+//        //public void Remove_CannotRemoveRootCategory()
+//        //{
+//        //    // Arrange
+//        //    var rootCategory = new DisplayableCategory { Name = "All" };
+//        //    categoryPageVm.DisplayableCategories = new ObservableCollection<DisplayableCategory> { rootCategory };
+//        //    categoryPageVm.selectedDisplayableCategory = rootCategory;
 
-//            // Act
-//            viewModel.Remove();
+//        //    // Act
+//        //    categoryPageVm.Remove();
 
-//            // Assert
-//            mockDisplayDialog.Verify(d => d.ShowErrorMessageBox("Cannot remove the \"All\" category."));
-//        }
+//        //    // Assert
+//        //    mockDisplayDialog.Verify(d => d.ShowErrorMessageBox("Cannot remove the \"All\" category."));
+//        //}
 //    }
 //}

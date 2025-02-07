@@ -2,7 +2,7 @@
 using ShopAssist.ViewModels;
 using System.ComponentModel;
 
-namespace ShopAssist.Tests
+namespace ShopAssist.ViewModels.Tests
 {
     [TestClass]
     public class ViewModelBaseTests

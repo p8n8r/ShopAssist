@@ -9,6 +9,10 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="DirectionsPage" Loaded="Page_Loaded">
 
+    <Page.Resources>
+        <local:LineOffsetConverter x:Key="NodePlacementCorrector"/>
+    </Page.Resources>
+
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -25,10 +29,10 @@
             <ItemsControl ItemsSource="{Binding Edges}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Line X1="{Binding From.X, Converter={StaticResource LineOffsetConverter}}"
-                              Y1="{Binding From.Y, Converter={StaticResource LineOffsetConverter}}"
-                              X2="{Binding To.X, Converter={StaticResource LineOffsetConverter}}"
-                              Y2="{Binding To.Y, Converter={StaticResource LineOffsetConverter}}" 
+                        <Line X1="{Binding From.X, Converter={StaticResource NodePlacementCorrector}}"
+                              Y1="{Binding From.Y, Converter={StaticResource NodePlacementCorrector}}"
+                              X2="{Binding To.X, Converter={StaticResource NodePlacementCorrector}}"
+                              Y2="{Binding To.Y, Converter={StaticResource NodePlacementCorrector}}" 
                               Tag="{Binding}" 
                               Stroke="Black" StrokeThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </DataTemplate>
@@ -89,8 +93,8 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemContainerStyle>
                     <Style TargetType="ContentPresenter">
-                        <Setter Property="Canvas.Left" Value="{Binding CenterX, Converter={StaticResource LineOffsetConverter}}"/>
-                        <Setter Property="Canvas.Top" Value="{Binding CenterY, Converter={StaticResource LineOffsetConverter}}"/>
+                        <Setter Property="Canvas.Left" Value="{Binding CenterX, Converter={StaticResource NodePlacementCorrector}}"/>
+                        <Setter Property="Canvas.Top" Value="{Binding CenterY, Converter={StaticResource NodePlacementCorrector}}"/>
                     </Style>
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
