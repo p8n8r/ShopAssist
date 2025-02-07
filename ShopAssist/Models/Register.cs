@@ -10,7 +10,6 @@ namespace ShopAssist.Models
 {
     public class Register
     {
-        private int totalQueuedCustomers = 0;
         public string Name { get; set; }
         public MultiHeap<QueuedCustomer> QueuedCustomers { get; private set; }
 
@@ -24,7 +23,6 @@ namespace ShopAssist.Models
         {
             queuedCustomer.Register = this;
             queuedCustomer.CheckoutEnteredTime = DateTime.Now;
-            this.totalQueuedCustomers++;
 
             this.QueuedCustomers.Add(queuedCustomer);
 
