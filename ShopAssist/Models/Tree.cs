@@ -11,13 +11,40 @@ namespace ShopAssist.Models
     {
         public TreeNode<T> Root { get; set; }
 
+        public void RestoreParents()
+        {
+            RestoreParents(this.Root);
+        }
+
+        public void RestoreParents(TreeNode<T> node)
+        {
+            if (node != null)
+            {
+                if (node.Children != null)
+                {
+                    foreach (TreeNode<T> childNode in node.Children)
+                    {
+                        childNode.Parent = node;
+                        RestoreParents(childNode);
+                    }
+                }
+            }
+        }
+
+        public bool Has(T data)
+        {
+            TreeNode<T> nodeFound = null;
+            Find(Root, data, ref nodeFound);
+            return nodeFound != null;
+        }
+
         public TreeNode<T> Find(T data)
         {
             TreeNode<T> nodeFound = null;
             Find(Root, data, ref nodeFound);
             return nodeFound;
         }
-        
+
         public void Find(TreeNode<T> nodeCurrent, T data, ref TreeNode<T> nodeFound)
         {
             if (nodeCurrent != null)
@@ -39,6 +66,38 @@ namespace ShopAssist.Models
                         }
                     }
                 }
+            }
+        }
+
+        public void AddChild(TreeNode<T> nodeCurrent, T data)
+        {
+            if (nodeCurrent != null)
+            {
+                if (nodeCurrent.Children == null)
+                    nodeCurrent.Children = new List<TreeNode<T>>();
+
+                nodeCurrent.Children.Add(new TreeNode<T>() { Data = data, Parent = nodeCurrent });
+            }
+        }
+
+        public void RemoveChild(TreeNode<T> nodeCurrent)
+        {
+            if (nodeCurrent != null)
+            {
+                if (nodeCurrent.Children != null)
+                {
+                    while(nodeCurrent.Children.Count > 0)
+                    {
+                        RemoveChild(nodeCurrent.Children.First());
+                    }
+                }
+
+                nodeCurrent.Children?.Clear();
+                
+                if (nodeCurrent.Parent != null)
+                    nodeCurrent.Parent.Children.Remove(nodeCurrent);
+                else //Must be the root
+                    this.Root = null;
             }
         }
     }

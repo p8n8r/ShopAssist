@@ -3,16 +3,20 @@ using ShopAssist.Models;
 using ShopAssist.Views;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Navigation;
+using System.Windows;
 using System.Xml.Serialization;
 
 namespace ShopAssist.ViewModels
 {
-    internal class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
         private const string STORE_FILE = @".\Datasets\Store.xml";
         public readonly IDisplayDialog displayDialog;
@@ -22,6 +26,10 @@ namespace ShopAssist.ViewModels
         private MainWindow mainWindow;
         public MainWindow MainWindow { get { return mainWindow; } }
         public RelayCommand customersCmd => new RelayCommand(execute => OpenCustomerPage());
+        public RelayCommand inventoryCmd => new RelayCommand(execute => OpenInventoryPage());
+        public RelayCommand categoriesCmd => new RelayCommand(execute => OpenCategoryPage());
+        public RelayCommand checkoutCmd => new RelayCommand(execute => OpenCheckoutPage());
+        public RelayCommand directionsCmd => new RelayCommand(execute => OpenDirectionsPage());
         public RelayCommand onCloseCmd => new RelayCommand(execute => OnClose());
 
         public MainWindowViewModel(MainWindow mainWindow, IDisplayDialog displayDialog)
@@ -30,25 +38,23 @@ namespace ShopAssist.ViewModels
             this.displayDialog = displayDialog;
 
             ImportStore(STORE_FILE);
-            //AddJunkData(); // <---- REMOVE THIS 
         }
 
-        private void AddJunkData()
+        private void RestoreEdges()
         {
-            //Add junk data
-            this.Store.Customers = new List<Customer>()
+            // Restore edges for each node
+            foreach (var edge in this.Store.DirectionsGraph.Edges)
             {
-                new Customer() { Name = "Peyton Stults", Membership = new Membership() { Id = 1, MembershipLevel = MembershipLevel.High} },
-                new Customer() { Name = "Addison Stults", Membership = new Membership() { Id = 2, MembershipLevel = MembershipLevel.Medium} },
-                new Customer() { Name = "Parker Stults", Membership = new Membership() { Id = 3, MembershipLevel = MembershipLevel.Low} },
-                new Customer() { Name = "Will Stults", Membership = new Membership() { Id = 4, MembershipLevel = MembershipLevel.None} }
-            };
+                var fromNode = this.Store.DirectionsGraph.Nodes.Find(n => n.Name == edge.From.Name);
+                var toNode = this.Store.DirectionsGraph.Nodes.Find(n => n.Name == edge.To.Name);
 
-            this.Store.Inventory = new Dictionary<int, Item>()
-            {
-                { 0, new Item() { Name = "Apple", Category = "Fruit", Stock = 10, Price = 0.89M } },
-                { 1, new Item() { Name = "Steak", Category = "Meat", Stock = 3, Price = 8.99M } }
-            };
+                if (fromNode != null && toNode != null)
+                {
+                    edge.From = fromNode;
+                    edge.To = toNode;
+                    fromNode.Edges.Add(edge);
+                }
+            }
         }
 
         private void ImportStore(string filePath)
@@ -63,6 +69,16 @@ namespace ShopAssist.ViewModels
                 //around that IDictionary serialization issue.
                 for (int i = 0; i < this.Store.Items.Count; i++)
                     this.Store.Inventory[i] = this.Store.Items[i];
+
+                //Let's restore the category tree parents.
+                //The parents have to be left out 
+                //of XML serialization.
+                this.Store.Categories.RestoreParents();
+
+                //Let's retore the node's edges.
+                //The edges had to be left out of XML
+                //serialization dure to circular references.
+                RestoreEdges();
             }
             else
             {
@@ -158,6 +174,34 @@ namespace ShopAssist.ViewModels
         private void OpenCustomerPage()
         {
             this.mainWindow.mainFrame.Navigate(this.mainWindow.customerPage);
+        }
+
+        private void OpenInventoryPage()
+        {
+            this.mainWindow.mainFrame.Navigate(this.mainWindow.inventoryPage);
+        }
+        
+        private void OpenCategoryPage()
+        {
+            this.mainWindow.mainFrame.Navigate(this.mainWindow.categoryPage);
+        }
+
+        private void OpenCheckoutPage()
+        {
+            this.mainWindow.mainFrame.Navigate(this.mainWindow.checkoutPage);
+        }
+
+        private void OpenDirectionsPage()
+        {
+            this.mainWindow.mainFrame.Navigate(this.mainWindow.directionsPage);
+        }
+
+        public Page GetCurrentPage()
+        {
+            if (this.MainWindow != null)
+                return (this.MainWindow.FindName("mainFrame") as Frame).Content as Page;
+
+            return null;
         }
 
         private void OnClose()

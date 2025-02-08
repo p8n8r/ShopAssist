@@ -11,24 +11,19 @@ namespace ShopAssist.Models
     [Serializable]
     public class Store
     {
-        //private ObservableCollection<Item> items;
         public List<Customer> Customers { get; set; }
-        public Tree<string> Categories { get; set; }
+        public Tree<Category> Categories { get; set; }
         [XmlIgnore]
         public Dictionary<int, Item> Inventory { get; set; }
         public List<Item> Items { get; set; } //Only used for import/export
-
-        //public ObservableCollection<Item> Items
-        //{
-        //    get { return this.items; }
-        //    set { this.items = value; OnPropertyChanged(); }
-        //}
+        public Graph DirectionsGraph { get; set; }
 
         public Store()
         {
             this.Customers = new List<Customer>();
             this.Inventory = new Dictionary<int, Item>();
-            this.Categories = new Tree<string>();
+            this.Categories = new Tree<Category>();
+            this.DirectionsGraph = new Graph();
         }
     }
 }

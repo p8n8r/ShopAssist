@@ -1,9 +1,10 @@
 ﻿<Application x:Class="ShopAssist.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:ShopAssist"
+             xmlns:local="clr-namespace:ShopAssist" 
+             xmlns:views="clr-namespace:ShopAssist.Views"
              Startup="Application_Startup">
     <Application.Resources>
-         
+        <views:LineOffsetConverter x:Key="LineOffsetConverter"/>
     </Application.Resources>
 </Application>
