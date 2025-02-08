@@ -50,22 +50,5 @@ namespace ShopAssist.Tests
             var expected = new List<int> { 1, 2, 3, 4, 5 };
             CollectionAssert.AreEqual(expected, list);
         }
-
-        //[TestMethod]
-        //public void Swap_SwapsCorrectly()
-        //{
-        //    // Arrange
-        //    var list = new List<int> { 1, 2, 3, 4, 5 };
-        //    int idx1 = 0;
-        //    int idx3 = 2;
-
-        //    //Act
-        //    PrivateType privType = new PrivateType(typeof(ListOperations));
-        //    privType.InvokeStatic("Swap", new object[] { list, idx1, idx3 });
-
-        //    //Assert
-        //    Assert.AreEqual(list[idx1], 3);
-        //    Assert.AreEqual(list[idx3], 1);
-        //}
     }
 }

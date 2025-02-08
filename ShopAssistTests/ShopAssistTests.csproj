@@ -70,7 +70,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CategoryPageViewModelTests.cs" />
     <Compile Include="ListOperationsTests.cs" />
     <Compile Include="Models\CategoryTests.cs" />
     <Compile Include="Models\CustomerTests.cs" />
